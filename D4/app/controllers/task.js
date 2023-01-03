@@ -30,4 +30,25 @@ const addTask= (req, res) => {
     })
 };
 
-module.exports = {newTask};
+const getList= (req, res) => {
+    Task.find({}, (err, data)=>{
+        if (err){
+            return res.json({Error: err});
+        }
+        return res.json(data);
+    })
+};
+
+const deleteTask= (req, res) => {
+    let name = req.params.nome; //get the task name
+    //find the specific task with that name
+    Task.findOneAndDelete({nome:name}, (err, data) => {
+        if(err || !data) {
+            return res.json({message: "Task doesn't exist."});
+        }else{
+            return res.json(data); //return the task object if found
+        }
+    });
+};
+
+module.exports = {addTask, getList, deleteTask};
