@@ -1,5 +1,3 @@
-console.log("controller");
-
 const Task = require('../models/task');
 
 const addTask= (req, res) => {
@@ -39,6 +37,17 @@ const getList= (req, res) => {
     })
 };
 
+const getTask= (req, res) => {
+    let name= req.params.nome;
+    Task.findOne({nome:name}, (err, data) => {
+        if (err || !data){
+            return res.json({message: "Task doesn't exist."});
+        }else{
+            return res.json(data);
+        }
+    })
+}
+
 const deleteTask= (req, res) => {
     let name = req.params.nome; //get the task name
     //find the specific task with that name
@@ -51,4 +60,4 @@ const deleteTask= (req, res) => {
     });
 };
 
-module.exports = {addTask, getList, deleteTask};
+module.exports = {addTask, getList, getTask, deleteTask};
