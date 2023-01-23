@@ -34,4 +34,13 @@ app.listen(process.env.PORT, () =>
 
 
 const routesTask= require('./routes/task');
-app.use('/', routesTask)
+app.use('/', routesTask);
+
+const routesModulo= require('./routes/modulo');
+app.use('/', routesModulo);
+
+const routesNews= require('./routes/news');
+app.use('/', routesNews);
+
+const routesAgenzia= require('./routes/agenzia');
+app.use('/', routesAgenzia);

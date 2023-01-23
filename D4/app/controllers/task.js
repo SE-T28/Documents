@@ -53,7 +53,7 @@ const deleteTask= (req, res) => {
     //find the specific task with that name
     Task.findOneAndDelete({nome:name}, (err, data) => {
         if(err || !data) {
-            return res.json({message: "Task doesn't exist."});
+            return res.json({message: "Task " + name + " doesn't exist."});
         }else{
             return res.json(data); //return the task object if found
         }
