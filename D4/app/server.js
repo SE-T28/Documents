@@ -80,3 +80,6 @@ app.use('/', routesNews);
 
 const routesAgenzia= require('./routes/agenzia');
 app.use('/', routesAgenzia);
+
+const routesUtente= require('./routes/utente');
+app.use('/', routesUtente);

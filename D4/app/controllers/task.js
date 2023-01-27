@@ -2,7 +2,7 @@ const Task = require('../models/task');
 
 const addTask= (req, res) => {
     //controlla se c'è una task con lo stesso nome
-    Task.findOne({nome: req.body.nome}, (err, data)=>{
+    Task.findOne({nome: req.body.nome},  (err, data)=>{
         //se non è già presente nel db
         if(!data){
             //creo una nuova task
