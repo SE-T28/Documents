@@ -9,8 +9,9 @@ const Modulo= mongoose.model("modulo", new mongoose.Schema({
     "contrartors" : {type: String, required:true},
     "power" : {type: String, required:true},
     "mass" : {type: String, required:true},
-    "orbit" : {type: String, required:true},
+    "launch_date" : {type: String, required:true},
     "other_details" : {type: String, required:false},
+    "image": {type: String, required: true}
 }));
 
 module.exports= Modulo;
