@@ -1,5 +1,17 @@
 const Utente= require('../models/utente');
 
+const allAccess = (req, res) => {
+    res.status(200).send("Public Content.");
+  };
+  
+const tecnicointernoBoard = (req, res) => {
+    res.status(200).send("Tecnico interno Content.");
+  };
+  
+const amministratoreBoard = (req, res) => {
+    res.status(200).send("Amministratore Content.");
+  };
+
 const getList= (req, res) => {
     Utente.find({}, (err, data)=>{
         if (err){
@@ -8,7 +20,7 @@ const getList= (req, res) => {
         return res.json(data);
     })
 };
-
+/*
 const addUsr= (req, res) => {
     Utente.findOne({nome: req.body.nome, cognome: req.body.cognome}, (err, data) => {
         if(!data){
@@ -31,7 +43,7 @@ const addUsr= (req, res) => {
         }
     })
 };
-
+*/
 const deleteUsr= (req, res) => {
     let nome= req.params.nome;
     let cognome= req.params.cognome
@@ -44,4 +56,4 @@ const deleteUsr= (req, res) => {
     });
 };
 
-module.exports= {getList, addUsr, deleteUsr};
+module.exports= {allAccess, tecnicointernoBoard, amministratoreBoard, getList, deleteUsr};

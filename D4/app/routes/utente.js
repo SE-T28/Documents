@@ -1,13 +1,37 @@
+const { authJwt } = require("../middlewares");
+const controller = require("../controllers/utente");
+
 const express=require('express')
 const multer=require('multer');
 const upload = multer();
 
-const router = express.Router();
+//const router = express.Router();
 
-const utenteController= require('../controllers/utente');
+module.exports = function(app) {
+  app.use(function(req, res, next) {
+    res.header(
+      "Access-Control-Allow-Headers",
+      "x-access-token, Origin, Content-Type, Accept"
+    );
+    next();
+  });
 
-router.get('/crew', upload.none(), utenteController.getList);
-router.post('/crew', upload.none(), utenteController.addUsr);
-router.delete('/crew/:nome/:cognome', upload.none(), utenteController.deleteUsr);
+  app.get("/all", controller.allAccess);
 
-module.exports= router;
+  app.get("/tecnicointerno",
+          [authJwt.verificaToken, authJwt.isTecnico_Interno], 
+          controller.tecnicointernoBoard
+  );
+  
+  app.get(
+    "/amministratore",
+    [authJwt.verificaToken, authJwt.isAmministratore],
+    controller.amministratoreBoard
+  );
+
+  app.get('/crew', upload.none(), controller.getList); //router.get(...)
+  //router.post('/crew', upload.none(), utenteController.addUsr);
+  app.delete('/crew/:nome/:cognome', upload.none(), controller.deleteUsr);
+};
+
+//module.exports= router;
