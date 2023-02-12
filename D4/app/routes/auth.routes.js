@@ -19,5 +19,5 @@ module.exports = function(app) {
     controller.signup
   );
 
-  app.post("/crew/signin", controller.signin);
+  app.post("/login", controller.signin);
 };
