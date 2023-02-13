@@ -15,8 +15,8 @@ checkDuplicatiNomeCognome= (req, res, next) => {
             res.status(400).send({message: "Utente già presente"});
             return;
         }
+        next();
     })
-    next();
 };
 
 checkRoleEsiste = (req, res, next) => {

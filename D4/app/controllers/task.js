@@ -1,10 +1,12 @@
 const Task = require('../models/task');
+const Utente= require('../models/utente')
+const Role= require('../models/role')
 
 const addTask= (req, res) => {
     //controlla se c'è una task con lo stesso nome
-    Task.findOne({nome: req.body.nome},  (err, data)=>{
+    Task.findOne({nome: req.body.nome}, (err, user) =>{
         //se non è già presente nel db
-        if(!data){
+        if(!user){
             //creo una nuova task
             const newTask= new Task({
                 data_inizio: req.body.data_inizio,
@@ -13,7 +15,7 @@ const addTask= (req, res) => {
                 modulo: req.body.modulo,
                 descrizione: req.body.descrizione,
                 completata: req.body.completata,
-                id: req.body.id
+                userId: req.userId
             })
 
             //salvo l'oggetto nel db
@@ -29,12 +31,35 @@ const addTask= (req, res) => {
 };
 
 const getList= (req, res) => {
-    Task.find({}, (err, data)=>{
-        if (err){
-            return res.json({Error: err});
+    Utente.findById(req.userId).exec((err, user) => {
+        if (err) {
+            res.status(500).send({ message: err });
+            return;
         }
-        return res.json(data);
-    })
+
+        Role.findOne({_id: {$in : user.role}}, (err, role) => {
+            if(err){
+                res.status(500).send({ message: err });
+                return;
+            }   
+
+            if(role.name == 'amministratore'){
+                Task.find({}, (err, data)=>{
+                    if (err){
+                        return res.json({Error: err});
+                    }
+                    return res.json(data);
+                });
+            }else if(role.name == 'tecnico_interno'){
+                Task.find({userId: req.userId}, (err, data)=>{
+                    if (err){
+                        return res.json({Error: err});
+                    }
+                    return res.json(data);
+                });
+            }
+        });
+    });
 };
 
 const getTask= (req, res) => {

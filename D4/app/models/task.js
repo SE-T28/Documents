@@ -7,7 +7,7 @@ const Task = mongoose.model("task", new mongoose.Schema({
     "modulo" : {type: String, required: true},
     "descrizione" : String,
     "completata" : {type: Boolean, required: true, default: false},
-    "id" : {type: String, required: true}
+    "userId" : {type: String, required: true}
 }));
 
 module.exports = Task;
