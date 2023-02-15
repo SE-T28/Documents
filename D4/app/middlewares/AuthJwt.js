@@ -49,7 +49,7 @@ isAmministratore = (req, res, next) => {
   });
 };
 
-isTecnico_Interno= (req, res, next) => {
+isTecnico_Interno= (req, res, next) => {  //accesso anche per gli amministratori (isTecnico_interno_or_amministratore)
     Utente.findById(req.userId).exec((err, user) => {
         if (err) {
           res.status(500).send({ message: err });
@@ -66,7 +66,7 @@ isTecnico_Interno= (req, res, next) => {
               return;
             }
     
-          if (role.name === "tecnico_interno") {
+          if (role.name === "tecnico_interno" || role.name==='amministratore') {
               next();
               return;
            }
