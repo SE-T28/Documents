@@ -1,6 +1,7 @@
 const Task = require('../models/task');
 const Utente= require('../models/utente')
-const Role= require('../models/role')
+const Role= require('../models/role');
+const { role } = require('../models');
 
 const addTask= (req, res) => {
     Task.findOne({nome: req.body.nome}, (err, data) =>{
@@ -175,6 +176,64 @@ const deleteTask= (req, res) => {
     }
 };
 
+const modificaTask= (req, res) =>{
+    Utente.findById(req.userId, (err, user) => {
+        if(err){
+            res.status(500).send({message: err});
+            return;
+        }
+        //cerco il role dell'utente
+        Role.findOne({_id: {$in : user.role}}, (err, role) => {
+            if(err){
+                res.status(500).send({ message: err });
+                return;
+            }
+            if(role.name=='amministratore'){
+                Task.findOneAndUpdate({nome: req.params.nome},
+                    {
+                        data_inizio: req.body.data_inizio,
+                        data_fine: req.body.data_fine,
+                        nome: req.body.nome,
+                        modulo: req.body.modulo,
+                        descrizione: req.body.descrizione,
+                        completata: req.body.completata
+                    },
+                    (err, data) => {
+                        if(err){
+                            res.status(500).send({ message: err });
+                            return;
+                        }
+                        if(!data){
+                            return res.json({message: "La task non esiste"})
+                        }else{
+                            return res.status(200).send({message: "Task modificata!"})
+                        }
+                    });
+            }else if(role.name=='tecnico_interno'){
+                Task.findOneAndUpdate({nome: req.params.nome, userId: req.userId},
+                    {
+                        data_inizio: req.body.data_inizio,
+                        data_fine: req.body.data_fine,
+                        nome: req.body.nome,
+                        modulo: req.body.modulo,
+                        descrizione: req.body.descrizione,
+                        completata: req.body.completata
+                },
+                (err, data) => {
+                    if(err){
+                        res.status(500).send({ message: err });
+                        return;
+                    }
+                    if(!data){
+                        return res.json({message: "La task non esiste o non appartiene a questo utente"})
+                    }else{
+                        return res.status(200).send({message: "Task modificata!"})
+                    }
+                });
+            }
+        });
+    });
+};
 
 
-module.exports = {addTask, getList, getTask, deleteTask};
+module.exports = {addTask, getList, getTask, deleteTask, modificaTask};

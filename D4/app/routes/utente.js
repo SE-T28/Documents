@@ -31,7 +31,7 @@ module.exports = function(app) {
 
   app.get('/crew', upload.none(), controller.getList); //router.get(...)
   //router.post('/crew', upload.none(), utenteController.addUsr);
-  app.delete('/crew/:nome/:cognome', upload.none(), controller.deleteUsr);
+  app.delete('/crew/:nome/:cognome', upload.none(), [authJwt.verificaToken, authJwt.isAmministratore], controller.deleteUsr);
 };
 
 //module.exports= router;
