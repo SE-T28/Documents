@@ -1,11 +1,8 @@
 const { authJwt } = require("../middlewares");
 const controller = require("../controllers/utente");
 
-const express=require('express')
 const multer=require('multer');
 const upload = multer();
-
-//const router = express.Router();
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -29,9 +26,6 @@ module.exports = function(app) {
     controller.amministratoreBoard
   );
 
-  app.get('/crew', upload.none(), controller.getList); //router.get(...)
-  //router.post('/crew', upload.none(), utenteController.addUsr);
+  app.get('/crew', upload.none(), controller.getList);
   app.delete('/crew/:nome/:cognome', upload.none(), [authJwt.verificaToken, authJwt.isAmministratore], controller.deleteUsr);
 };
-
-//module.exports= router;
