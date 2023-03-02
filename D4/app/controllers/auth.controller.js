@@ -34,7 +34,7 @@ exports.signup = (req, res) => {
                             res.status(500).send({ message: err });
                             return;
                         }
-                        res.send({ message: "User was registered successfully!" });
+                        res.stauts(201).send({ message: "User was registered successfully!" });
                         return;
                     });
                 }
@@ -52,7 +52,7 @@ exports.signup = (req, res) => {
                         return;
                     }
 
-                    res.send({ message: "User was registered successfully!" });
+                    res.status(201).send({ message: "User was registered successfully!" });
                 });
             });
         }

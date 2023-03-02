@@ -29,8 +29,8 @@ const addTask= (req, res) => {
                             userId: req.userId //se un tecnico interno l'userId della task è l'Id dell'utente
                         });
                         newTask.save((err, data)=>{
-                            if(err) return res.json({Error: err});
-                            return res.json(data);
+                            if(err) return res.status(500).json({Error: err});
+                            return res.status(201).json(data);
                         });
                     }else if(role.name==='amministratore'){
                         //cerco il tecnico interno a cui assegnare la task
@@ -41,7 +41,7 @@ const addTask= (req, res) => {
                                 return;
                             }
                             if(!user){
-                                return res.json({message: "Utente non trovato"})
+                                return res.status(404).json({message: "Utente non trovato"})
                             }
                             const newTask= new Task({
                                 data_inizio: req.body.data_inizio,
@@ -53,16 +53,16 @@ const addTask= (req, res) => {
                                 userId: utente._id  //se amministratore lo userId della task è l'id del tecnico interno cercato
                             });
                              newTask.save((err, data)=>{
-                                if(err) return res.json({Error: err});
-                                return res.json(data);
+                                if(err) return res.status(500).json({Error: err});
+                                return res.status(201).json(data);
                             });                
                         });
                     }
                 });
             });
         }else{
-            if(err) return res.json("Qualcosa è andato storto, riprova. ${err}");
-            return res.json({message: "Esiste già una task con questo nome"})
+            if(err) return res.status(500).json("Qualcosa è andato storto, riprova. ${err}");
+            return res.status(409).json({message: "Esiste già una task con questo nome"})
         }
     });
 };

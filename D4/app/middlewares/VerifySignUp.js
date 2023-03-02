@@ -12,7 +12,7 @@ checkDuplicatiNomeCognome= (req, res, next) => {
             return;
         }
         if(user){ //se trovato un utente
-            res.status(400).send({message: "Utente già presente"});
+            res.status(409).send({message: "Utente già presente"});
             return;
         }
         next();

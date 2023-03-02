@@ -3,19 +3,26 @@ const Modulo= require('../models/modulo');
 const getList= (req, res) => {
     Modulo.find({}, (err, data)=>{
         if (err){
-            return res.json({Error: err});
+            return res.status(500).json({Error: err});
         }
-        return res.json(data);
+        if(!data){
+            return res.status(404);
+        }else{
+            return res.status(200).json(data);
+        }
     })
 };
 
 const getModulo= (req, res) => {
     let name= req.params.nome;
     Modulo.findOne({nome:name}, (err, data) => {
-        if (err || !data){
-            return res.json({message: "Module " + name + " doesn't exist."});
+        if(err){
+            return res.stauts(500);
+        }
+        if (!data){
+            return res.status(404).json({message: "Module " + name + " doesn't exist."});
         }else{
-            return res.json(data);
+            return res.status(200).json(data);
         }
     })    
 };

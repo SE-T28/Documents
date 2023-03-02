@@ -13,19 +13,6 @@ module.exports = function(app) {
     next();
   });
 
-  app.get("/all", controller.allAccess);
-
-  app.get("/tecnicointerno",
-          [authJwt.verificaToken, authJwt.isTecnico_Interno], 
-          controller.tecnicointernoBoard
-  );
-  
-  app.get(
-    "/amministratore",
-    [authJwt.verificaToken, authJwt.isAmministratore],
-    controller.amministratoreBoard
-  );
-
   app.get('/crew', upload.none(), controller.getList);
   app.delete('/crew/:nome/:cognome', upload.none(), [authJwt.verificaToken, authJwt.isAmministratore], controller.deleteUsr);
 };
