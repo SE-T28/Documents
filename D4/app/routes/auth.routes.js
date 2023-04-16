@@ -1,5 +1,6 @@
-const { verifySignUp } = require("../middlewares");
+const { verifySignUp } = require("../middlewares"); //object destructuring
 const controller = require("../controllers/auth.controller");
+
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -10,14 +11,7 @@ module.exports = function(app) {
     next();
   });
 
-  app.post(
-    "/crew/addusr",
-    [
-      verifySignUp.checkDuplicatiNomeCognome,
-      verifySignUp.checkRoleEsiste
-    ],
-    controller.signup
-  );
+  app.post("/crew/addusr",[verifySignUp.checkDuplicatiNomeCognome, verifySignUp.checkRoleEsiste], controller.signup);
 
   app.post("/login", controller.signin);
 };

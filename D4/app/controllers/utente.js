@@ -26,4 +26,4 @@ const deleteUsr= (req, res) => {
     });
 };
 
-module.exports= {allAccess, tecnicointernoBoard, amministratoreBoard, getList, deleteUsr};
+module.exports= {getList, deleteUsr};

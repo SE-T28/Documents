@@ -1,0 +1,282 @@
+{
+    "openapi":"3.0.3",
+    "info": {
+        "version": "1.0",
+        "title": "My User Project CRUD",
+        "description": "My User Project Application API",
+        "license":{
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "tags": [
+        {
+            "name": ["Matteo Parma - ", "Andrea Gravili - ", "Maria Laura La Face"],
+            "description": "API for users in the system"
+        }
+    ],
+    "schemes": ["http"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "definitions": {
+        "Task": {
+            "required": ["data_inizio", "data_fine", "nome", "modulo", "completata", "userId"],
+            "properties": {
+                "data_inizio": {"type": "date"},
+                "data_fine": {"type": "date"},
+                "nome": {"type": "string"},
+                "modulo": {"type": "string"},
+                "completata": {"type": "boolean", "default":"false"},
+                "userId": {"type": "string"}
+            }
+        },
+        "Modulo":{
+            "required": ["nome", "descrizione", "nazione", "application",
+                         "operator", "contractors", "power", "mass", "launch_date",
+                         "other_details", "image"],
+            "properties":{
+                "nome" : {"type": "string"},
+                "descrizione" : {"type": "string"},
+                "nazione" : {"type": "string"},
+                "application" : {"type": "string"},
+                "operator" : {"type": "string"},
+                "contrartors" : {"type": "string"},
+                "power" : {"type": "string"},
+                "mass" : {"type": "string"},
+                "launch_date" : {"type": "string"},
+                "other_details" : {"type": "string"},
+                "image": {"type": "string"}
+            }
+        },
+        "Utente":{
+            "required": ["nome", "cognome", "email", "numero_telefono", "data_nascita", "password"],
+            "properties":{
+                "nome": {"type": "String"},
+                "cognome": {"type": "String"},
+                "email": {"type": "String"},
+                "numero_telefono": {"type": "String"},
+                "data_nascita": {"type": "String"},
+                "password": {"type": "String"},
+                "role":{"type": "mongoose.Schema.Types.ObjectId", "ref": "Role"}
+            }
+        }
+    },
+    "components":{
+        "securitySchemes":{
+            "bearerAuth":{
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat":"JWT"
+            }
+        }
+    },
+    "security":{"bearerAuth":[]},
+
+    "paths": { 
+        "/task": {  
+            "get": {
+                "tags": ["Lista task"],
+                "summary": "Prende tutte le task dal db",
+                "parameters":[{
+                    "in": "header",
+                    "name": "x-access-token",
+                    "schema": {
+                        "type": "string"
+                    },
+                    "stype": "simple",
+                    "description": "Token per accedere alle tasks"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Task"
+                        }
+                    },
+                    "500":{
+                        "description": "Internal Server Error"
+                    },
+                    "400":{
+                        "description": "Bad Request"
+                    },
+                    "401":{
+                        "description": "Unauthorized"
+                    },
+                    "403":{
+                        "description": "Forbidden"
+                    }
+                }
+            },
+
+            "post":{
+                "tags": ["Aggiunta task"],
+                "summary": "Viene aggiunta una task",
+                "parameters":[{
+                    "in": "body",
+                    "name": "task",
+                    "description": "La task da aggiungere",
+                    "schema":{
+                        "type": "object",
+                        "required": "nome",
+                        "properties":{
+                            "data_inizio": {"type": "date"},
+                            "data_fine": {"type": "date"},
+                            "nome": {"type": "string"},
+                            "modulo": {"type": "string"},
+                            "completata": {"type": "boolean"},
+                            "userId": {"type": "string"}
+                        }
+                    }
+                }],
+                "responses": {
+                    "201":{
+                        "description": "Created",
+                        "schema": {"$ref": "#/definitions/Task"}
+                    },
+                    "401":{
+                        "description": "Unauthorized"
+                    },
+                    "500":{
+                        "description": "Internal Server Error"
+                    },
+                    "404":{
+                        "description": "Not Found"
+                    },
+                    "409":{
+                        "description": "Conflict"
+                    },
+                    "403":{
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/task/{nome}": {
+            "get": {
+                "tags": ["Seleziona task"],
+                "summary": "Ritorna la task con quel nome",
+                "parameters":[{
+                    "in": "path",
+                    "name": "nome",
+                    "schema": {"type": "string"},
+                    "required":"true",
+                    "description": "Nome della task"
+                }],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "schema":{ "$ref": "#/definitions/Task"}
+                    },
+                    "401":{
+                        "description": "Unauthorized"
+                    },
+                    "500":{
+                        "description": "Internal Server Error"
+                    },
+                    "403":{
+                        "description": "Forbidden"
+                    },
+                    "404":{
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+
+        "/moduli" :{
+            "get": {
+                "tags": ["Lista moduli"],
+                "summary": "Ritorna la lista dei moduli",
+                "responses":{
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Modulo"
+                        }
+                    },
+                    "500":{
+                        "description": "Internal Server Error"
+                    },
+                    "400":{
+                        "description": "Bad Request"
+                    },
+                    "401":{
+                        "description": "Unauthorized"
+                    },
+                    "403":{
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/moduli/{nome}": {
+            "get": {
+                "tags": ["Selezione modulo"],
+                "summary": "Ritorna il modulo con quel nome",
+                "parameters":[{
+                    "in": "path",
+                    "name": "nome",
+                    "schema": {"type": "string"},
+                    "required": "true",
+                    "description": "Nome del modulo"
+                }],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "schema":{ "$ref": "#/definitions/Modulo"}
+                    },
+                    "401":{
+                        "description": "Unauthorized"
+                    },
+                    "500":{
+                        "description": "Internal Server Error"
+                    },
+                    "403":{
+                        "description": "Forbidden"
+                    },
+                    "404":{
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+
+        "/login": {
+            "post": {
+                "tags": ["Login"],
+                "summary": "Login utente",
+                "parameters":[{
+                    "in": "body",
+                    "name": "user",
+                    "description": "credenziali",
+                    "schema":{
+                        "type": "object",
+                        "required": ["nome", "cognome", "password"],
+                        "properties":{
+                            "nome": {"type": "string"},
+                            "cognome": {"type": "string"},
+                            "password": {"type": "string"}
+                        }
+                    }
+                }],
+                "responses": {
+                    "200":{
+                        "description": "OK",
+                        "schema":{ "$ref": "#/definitions/Modulo"}
+                    },
+                    "401":{
+                        "description": "Unauthorized"
+                    },
+                    "500":{
+                        "description": "Internal Server Error"
+                    },
+                    "404":{
+                        "description": "Not Found"
+                    }
+                }
+            }
+        }
+    }
+}

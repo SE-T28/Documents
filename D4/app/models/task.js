@@ -5,7 +5,7 @@ const Task = mongoose.model("task", new mongoose.Schema({
     "data_fine" : {type: Date, required: true},
     "nome" : {type: String, required: true},
     "modulo" : {type: String, required: true},
-    "descrizione" : String,
+    "descrizione" : {type: String, required: false},
     "completata" : {type: Boolean, required: true, default: false},
     "userId" : {type: String, required: true}
 }));

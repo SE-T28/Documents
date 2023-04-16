@@ -1,7 +1,16 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const cors= require("cors");
+const swaggerUi= require('swagger-ui-express');
+const swaggerDocument= require('./swagger.json');
+const app=express();
+app.use(express.json());
+
 require('dotenv').config();
+
+app.listen(process.env.PORT || 8080, () =>
+    console.log('app listening on port ' + process.env.PORT + '!')
+);
 
 //-------------connection to DB------------------------------------------
 const db= require('./models');
@@ -14,7 +23,6 @@ try {
         { useNewUrlParser: true, useUnifiedTopology: true },
         () => {
             console.log(" Mongoose is connected");
-            initial();
         }
     );
 } catch (e) {
@@ -27,9 +35,6 @@ dbConnection.on("error", (err) => console.log(`Connection error ${err}`));
 dbConnection.once("open", () => console.log("Connected to DB!"));
 //------------------------------------------------------------------------
 
-const app=express();
-app.use(express.json());
-
 var corsOptions = {
     origin: "http://localhost:8081"
   };
@@ -39,15 +44,12 @@ app.use(cors(corsOptions));
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.get("/", function (req, res) {
     res.send(req.headers, req.originalUrl, req.method, req.body);
 });
-
-app.listen(process.env.PORT || 8080, () =>
-    console.log('app listening on port ' + process.env.PORT + '!')
-);
-
-
+/*
 function initial(){
     Role.estimatedDocumentCount((err, count) => {
         if(!err && count==0){
@@ -72,7 +74,7 @@ function initial(){
               });
         }
     })
-}
+}*/
 
 const routesTask= require('./routes/task');
 app.use('/', routesTask);

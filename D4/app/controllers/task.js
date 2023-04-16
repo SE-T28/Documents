@@ -77,6 +77,7 @@ const getList= (req, res) => {
             res.status(500).send({ message: err });
             return;
         }
+        
         //cerco il role dell'utente
         Role.findOne({_id: {$in : user.role}}, (err, role) => {
             if(err){
@@ -90,7 +91,7 @@ const getList= (req, res) => {
                     if (err){
                         return res.json({Error: err});
                     }
-                    return res.json(data);
+                    return res.status(200).json(data);
                 });
             }else if(role.name == 'tecnico_interno'){
                 //se tecnico interno prende solo le task riferite a quell'utente
@@ -98,7 +99,7 @@ const getList= (req, res) => {
                     if (err){
                         return res.json({Error: err});
                     }
-                    return res.json(data);
+                    return res.status(200).json(data);
                 });
             }
         });
@@ -122,14 +123,17 @@ const getTask= (req, res) => {
             }
 
             Task.findOne({nome:req.params.nome}, (err, data) => {
-                if (err || !data){
-                    return res.json({message: "Task doesn't exist."});
+                if(err){
+                    return res.status(500).send({message: err});
+                }
+                if (!data){
+                    return res.statuts(404).json({message: "Task doesn't exist."});
                 }else{
                     //se amministratore oppure se tecnico interno e la task che sta cercando è la sua allora la restituisco
                     if ((role.name=='tecnico_interno' && data.userId==req.userId) || role.name=='amministratore'){
-                        return res.json(data);
+                        return res.status(200).json(data);
                     }else{
-                        return res.json({message: "La task non appartiene all'utente " + req.userId})
+                        return res.status(403).json({message: "La task non appartiene all'utente " + req.userId})
                     }
                 }
             })    
@@ -158,19 +162,25 @@ const deleteTask= (req, res) => {
     if(role.name=='amministratore'){
         //se amministratore elimino la task se esiste
         Task.findOneAndDelete({nome:req.params.nome}, (err, data) => {
-            if(err || !data) {
-                return res.json({message: "La task non esiste."});
+            if(err){
+                return res.status(500).send({message: err});
+            }
+            if(!data) {
+                return res.status(404).json({message: "La task non esiste."});
             }else{
-                return res.json(data);
+                return res.status(200).json(data);
             }
         });
     }else if(role.name=='tecnico_interno'){
         //se tecnico interno elimino la task se esiste e appartiene all'utente
         Task.findOneAndDelete({nome:req.params.nome, userId: req.user}, (err, data) => {
-            if(err || !data) {
-                return res.json({message: "La task non esiste o non appartiene a questo utente."});
+            if(err){
+                return res.status(500).send({message: err});
+            }
+            if(!data) {
+                return res.status(404).json({message: "La task non esiste o non appartiene a questo utente."});
             }else{
-                return res.json(data);
+                return res.status(200).json(data);
             }
         });
     }
@@ -204,7 +214,7 @@ const modificaTask= (req, res) =>{
                             return;
                         }
                         if(!data){
-                            return res.json({message: "La task non esiste"})
+                            return res.status(404).json({message: "La task non esiste"})
                         }else{
                             return res.status(200).send({message: "Task modificata!"})
                         }
@@ -225,7 +235,7 @@ const modificaTask= (req, res) =>{
                         return;
                     }
                     if(!data){
-                        return res.json({message: "La task non esiste o non appartiene a questo utente"})
+                        return res.status(404).json({message: "La task non esiste o non appartiene a questo utente"})
                     }else{
                         return res.status(200).send({message: "Task modificata!"})
                     }
