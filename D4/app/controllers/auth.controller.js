@@ -114,7 +114,7 @@ exports.signin= (req, res) => {
 /*
 const signin= async (req, res)=>{
 
-    let user = await Utente.findOne({nome: req.body.nome, cognome: req.body.cognome}).exec();
+    let user = await Utente.findOne({nome: req.body.nome, cognome: req.body.cognome}).populate("role", "-__v").exec();
 
     if(!user){return res.status(404).send({ message: "User Not found." });}
 
