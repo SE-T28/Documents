@@ -100,7 +100,7 @@
                                     "type": "array",
                                     "items":{
                                         "oneOf":[
-                                            {"$ref": "#/components/Task"}
+                                            {"$ref": "#/components/schemas/Task"}
                                         ]
                                     }
                                 }
@@ -129,7 +129,7 @@
                 "requestBody":{
                     "content":{
                         "application/json":{
-                            "schema":{ "$ref": "#/components/Task"}
+                            "schema":{ "$ref": "#/components/schemas/Task"}
                         }
                     }
                 },
@@ -138,7 +138,7 @@
                         "description": "Created",
                         "content":{
                             "application/json":{
-                                "schema": {"$ref": "#/components/Task"}
+                                "schema": {"$ref": "#/components/schemas/Task"}
                             }
                         }
                     },
@@ -177,9 +177,83 @@
                         "description": "OK",
                         "content":{
                             "application/json":{
-                                "schema":{ "$ref": "#/components/Task"}
+                                "schema":{ "$ref": "#/components/schemas/Task"}
                             }
                         }
+                    },
+                    "401":{
+                        "description": "Unauthorized"
+                    },
+                    "403":{
+                        "description": "Forbidden"
+                    },
+                    "404":{
+                        "description": "Not Found"
+                    },
+                    "500":{
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "delete": {
+                "security":[{"BearerAuth":[]}],
+                "tags": ["Task"],
+                "summary": "Elimina la task con quel nome",
+                "parameters":[
+                    {
+                        "in": "path",
+                        "name": "nome",
+                        "schema": {"type": "string"},
+                        "required":"true"
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description": "Unauthorized"
+                    },
+                    "403":{
+                        "description": "Forbidden"
+                    },
+                    "404":{
+                        "description": "Not Found"
+                    },
+                    "500":{
+                        "description": "Internal Server Error"
+                    }
+                }    
+            },
+            "patch":{
+                "security":[{"BearerAuth":[]}],
+                "tags": ["Task"],
+                "summary": "Modifica la task selezionata",
+                "requestBody": {
+                    "content": {
+                        "application/json":{
+                            "schema": {"$ref": "#/components/schemas/Task"}
+                        }
+                    }
+                },
+                "parameters":[
+                    {
+                        "in": "path",
+                        "name": "nome",
+                        "schema": {"type": "string"},
+                        "required":"true"
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description": "OK" 
                     },
                     "401":{
                         "description": "Unauthorized"
@@ -210,7 +284,7 @@
                                     "type": "array",
                                     "items":{
                                         "oneOf":[
-                                            {"$ref": "#/components/Modulo"}
+                                            {"$ref": "#/components/schemas/Modulo"}
                                         ]
                                     }
                                 }
@@ -249,7 +323,7 @@
                         "content":{
                             "application/json":{
                                 "schema": {
-                                    "$ref": "#/components/Modulo"
+                                    "$ref": "#/components/schemas/Modulo"
                                 }
                             }
                         }
@@ -276,7 +350,7 @@
                 "requestBody":{
                     "content":{
                         "application/json":{
-                            "schema":{ "$ref": "#/components/Credenziali"}
+                            "schema":{ "$ref": "#/components/schemas/Credenziali"}
                         }
                     }
                 },
@@ -286,7 +360,7 @@
                         "content":{
                             "application/json":{
                                 "schema": {
-                                    "$ref": "#/components/Utente"
+                                    "$ref": "#/components/schemas/Utente"
                                 }
                             }
                         }
@@ -311,7 +385,7 @@
                 "requestBody": {
                     "content": {
                         "application/json":{
-                            "schema": {"$ref": "#/components/Utente"}
+                            "schema": {"$ref": "#/components/schemas/Utente"}
                         }
                     }
                 },
@@ -321,7 +395,7 @@
                         "content":{
                             "application/json":{
                                 "schema": {
-                                    "$ref": "#/components/Utente"
+                                    "$ref": "#/components/schemas/Utente"
                                 }
                             }
                         }
@@ -354,7 +428,7 @@
                                     "type": "array",
                                     "items":{
                                         "oneOf":[
-                                            {"$ref": "#/components/Utente"}
+                                            {"$ref": "#/components/schemas/Utente"}
                                         ]
                                     }
                                 }
@@ -392,7 +466,7 @@
                         "content":{
                             "application/json":{
                                 "schema":{
-                                    "$ref": "#/components/Utente"
+                                    "$ref": "#/components/schemas/Utente"
                                 }
                             }
                         }
@@ -425,7 +499,7 @@
                                     "type": "array",
                                     "items":{
                                         "oneOf":[
-                                            {"$ref": "#/components/Agenzia"}
+                                            {"$ref": "#/components/schemas/Agenzia"}
                                         ]
                                     }
                                 }
@@ -451,7 +525,7 @@
                                     "type": "array",
                                     "items":{
                                         "oneOf":[
-                                            {"$ref": "#/components/News"}
+                                            {"$ref": "#/components/schemas/News"}
                                         ]
                                     }
                                 }

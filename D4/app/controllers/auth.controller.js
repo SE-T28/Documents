@@ -92,9 +92,7 @@ exports.signin= (req, res) => {
             });
         }
 
-        var token = jwt.sign({ id: user.id }, process.env.SECRET, {
-            expiresIn: 86400 // 24 hours
-        });
+        var token = jwt.sign({ id: user.id }, process.env.SECRET, {expiresIn: 86400}); // 24 hours
 
         var authority= "ROLE_" + user.role.name.toUpperCase();
         res.status(200).send({

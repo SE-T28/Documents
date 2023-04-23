@@ -156,34 +156,33 @@ const deleteTask= (req, res) => {
                 res.status(500).send({ message: err });
                 return;
             }
+            if(role.name=='amministratore'){
+                //se amministratore elimino la task se esiste
+                Task.findOneAndDelete({nome:req.params.nome}, (err, data) => {
+                    if(err){
+                        return res.status(500).send({message: err});
+                    }
+                    if(!data) {
+                        return res.status(404).json({message: "La task non esiste."});
+                    }else{
+                        return res.status(200).json(data);
+                    }
+                });
+            }else if(role.name=='tecnico_interno'){
+                //se tecnico interno elimino la task se esiste e appartiene all'utente
+                Task.findOneAndDelete({nome:req.params.nome, userId: req.user}, (err, data) => {
+                    if(err){
+                        return res.status(500).send({message: err});
+                    }
+                    if(!data) {
+                        return res.status(404).json({message: "La task non esiste o non appartiene a questo utente."});
+                    }else{
+                        return res.status(200).json(data);
+                    }
+                });
+            }
         });
-
     });
-    if(role.name=='amministratore'){
-        //se amministratore elimino la task se esiste
-        Task.findOneAndDelete({nome:req.params.nome}, (err, data) => {
-            if(err){
-                return res.status(500).send({message: err});
-            }
-            if(!data) {
-                return res.status(404).json({message: "La task non esiste."});
-            }else{
-                return res.status(200).json(data);
-            }
-        });
-    }else if(role.name=='tecnico_interno'){
-        //se tecnico interno elimino la task se esiste e appartiene all'utente
-        Task.findOneAndDelete({nome:req.params.nome, userId: req.user}, (err, data) => {
-            if(err){
-                return res.status(500).send({message: err});
-            }
-            if(!data) {
-                return res.status(404).json({message: "La task non esiste o non appartiene a questo utente."});
-            }else{
-                return res.status(200).json(data);
-            }
-        });
-    }
 };
 
 const modificaTask= (req, res) =>{
