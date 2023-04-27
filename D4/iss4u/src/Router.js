@@ -7,6 +7,7 @@ import NewsPage from "./views/NewsPage"
 import AgenciesPage from "./views/AgenciesPage.vue"
 import HistoryMissions from "./views/HistoryMission.vue"
 
+
 // Mancanza di task + user add / del / mod
 
 // ---------
@@ -18,7 +19,10 @@ const routeInfos = [
     { path: "/newsPage", component: NewsPage },
     { path: "/agenciesPage", component: AgenciesPage },
     { path: "/historyMissions", component: HistoryMissions },
+    //Componenti 
     { path: "/components/Login.vue" , component: () => import('./components/Login.vue')},
+    //{ path: "/routes/auth.routes.js" , component: () => import('./routes/auth.routes.js')},
+    
 ]
     
 const router = createRouter({

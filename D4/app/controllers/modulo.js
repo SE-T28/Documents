@@ -17,7 +17,7 @@ const getModulo= (req, res) => {
     let name= req.params.nome;
     Modulo.findOne({nome:name}, (err, data) => {
         if(err){
-            return res.stauts(500);
+            return res.status(500);
         }
         if (!data){
             return res.status(404).json({message: "Module " + name + " doesn't exist."});

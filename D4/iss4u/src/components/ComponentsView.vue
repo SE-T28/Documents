@@ -86,6 +86,8 @@
     "mass" : {type: String, required:true},
     "launchDate" : {type: String, required:true},
     "other_details" : {type: String, required:false} */
+
+    
     export default{
         data(){
             return{
