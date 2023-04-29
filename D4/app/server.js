@@ -46,9 +46,15 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.get("/", function (req, res) {
-    res.send(req.headers, req.originalUrl, req.method, req.body);
+const path= __dirname + "/views/";
+app.use(express.static(path));
+
+app.get("/",function (req,res) {
+  res.sendFile(path + "index.html");
 });
+/*app.get("/", function (req, res) {
+    res.send(req.headers, req.originalUrl, req.method, req.body);
+});*/
 /*
 function initial(){
     Role.estimatedDocumentCount((err, count) => {

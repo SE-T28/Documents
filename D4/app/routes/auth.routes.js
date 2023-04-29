@@ -17,4 +17,3 @@ module.exports = function(app) {
 
   app.post("/login", upload.none(), controller.signin);
 };
-

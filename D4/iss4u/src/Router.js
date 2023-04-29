@@ -11,7 +11,7 @@ import HistoryMissions from "./views/HistoryMission.vue"
 // Mancanza di task + user add / del / mod
 
 // ---------
-import { createRouter, createWebHistory } from "vue-router"
+import { createRouter, createWebHashHistory } from "vue-router"
 const routeInfos = [
     { path: "/", component: HomePage },
     { path: "/astronautsPage", component: AstronautsPage },
@@ -26,7 +26,7 @@ const routeInfos = [
 ]
     
 const router = createRouter({
-    history : createWebHistory(),
+    history : createWebHashHistory(),
     routes : routeInfos
 })
     

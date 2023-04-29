@@ -26,12 +26,12 @@
 
 <script>
 import axios from 'axios'
-import User from './../models/utente'
-import Auth from './../routes/auth.routes'
+import User from './../../../app/models/utente.js'
+import Auth from './../../../app/routes/auth.routes'
 
 import {login} from './../api/login'
 
-    /*export default{
+    export default{
         data(){
             return{
                 user: new User(''),
@@ -82,9 +82,9 @@ import {login} from './../api/login'
                 
             },
         },
-    }*/
+    }
     
-    export default{
+    /*export default{
         data(){
             return{
                 user: new User(''),
@@ -111,7 +111,7 @@ import {login} from './../api/login'
                     cognome: this.surname,
                     password: this.password
                 }
-                const myFile = require('../routes/auth.routes.js')
+                const myFile = require('./../../../app/routes/auth.routes.js')
                 // pass myData to myFile with the function login in axios
                 
                 axios.post('http://localhost:8080/src/routes/auth.routes.js', myData, {
@@ -127,7 +127,7 @@ import {login} from './../api/login'
 
             }
         }
-    }
+    }*/
 </script>
 
 <style scoped>
