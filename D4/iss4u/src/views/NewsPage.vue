@@ -6,7 +6,7 @@
         <div class="body-components">
             <p class="text-md-center pp">NEWS</p>
             <div class="container">
-                <div class="card" style="background-color: #31292B; border-radius: 10 0 10 0; ">
+                <div class="card dim" style="background-color: #31292B; border-radius: 10 0 10 0; ">
 
                     <!-- Classificazione di ogni news, da aggiungere una classe per ogni news istanziata dal DB -->
                     <!-- Aggiunta di un overlay-y al div dopo l'immagine -->
@@ -80,8 +80,15 @@ class Info{
 
 </script>
 
-<style scoped>
-
+<style scoped> 
+    .dim{
+        height: 80vh;
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
+    .dim::-webkit-scrollbar{
+        width: 0;
+    }
     .newsImg{
         margin-left: 10px;
         margin-top: 10px;
@@ -103,5 +110,7 @@ class Info{
         margin-left: 5px;
         border-bottom: 1px solid #515151;
     }
-
+    .backgroundImg{
+        margin-bottom: 120px;
+    }
 </style>

@@ -71,7 +71,7 @@ import {login} from './../api/login'
                             if(response.data.token == false)
                                 throw "Credenziali errate";
                             
-                            localStorage.setItem('nome', response.data.nome);
+                            localStorage.setItem('user', response.data.user);
                             this.$router.push('/');    
                         });
                     }
