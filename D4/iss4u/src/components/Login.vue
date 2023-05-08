@@ -67,7 +67,7 @@ import {login} from './../api/login'
                             password: this.password
                         }
                         login(user).then(response=>{
-                            localStorage.setItem('token', response.data.token);
+                            localStorage.setItem('token', response.data.accessToken);
                             if(response.data.token == false)
                                 throw "Credenziali errate";
                             
