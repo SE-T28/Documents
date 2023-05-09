@@ -36,9 +36,12 @@
 
 <!--modify variable user if logged then use his name else write "welcome user"-->
 <script>
+// Check if already logged in with token
+
+
+
 import 'bootstrap'
 export default { 
-  
     name: 'NavBar',
     data() {
         return {
