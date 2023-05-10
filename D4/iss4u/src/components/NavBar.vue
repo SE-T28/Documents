@@ -5,32 +5,64 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse navbarDiv" id="navbarNav">
-    <ul class="navbar-nav flex-fill">
-      <li class="nav-item no-underline">
+    <ul class="navbar-nav myUl flex-fill">
+      <li class="nav-item myItem no-underline">
         <router-link class="navbar-brand" to="/"><img src="../assets/iss4u.png"></router-link>
       </li>
-      <li class="nav-item flex-fill">
+      <li class="nav-item  myItem flex-fill">
         <router-link class="nav-link" to="/">Components</router-link>
       </li>
-      <li class="nav-item flex-fill">
+      <li class="nav-item myItem  flex-fill">
         <router-link class="nav-link" to="/agenciesPage">Agencies</router-link>
       </li>
-      <li class="nav-item flex-fill">
+      <li class="nav-item myItem  flex-fill">
         <router-link class="nav-link" to="/astronautsPage">Astronauts</router-link>
       </li>
-      <li class="nav-item flex-fill">
+      <li class="nav-item myItem  flex-fill">
         <router-link class="nav-link" to="/historyMissions">History Missions</router-link>
       </li>
-      <li class="nav-item flex-fill">
+      <li class="nav-item myItem  flex-fill">
         <router-link class="nav-link" to="/newsPage">News</router-link>
       </li>
-      <li class="nav-item flex-fill">
+      <!--<li class="nav-item flex-fill" >
         <router-link class="nav-link" to="/loginPage">Welcome {{ loggedUser }}
-          <!--<span v-if="loggedUser.name != undefined">{{ loggedUser.name }} </span>
-          <span v-else>user</span>-->
           <img src="../assets/user.png" style="width:30px; height: 30px;">
         </router-link>
         
+      </li>-->
+      <li class="nav-item myItem  flex-fill" v-if="roleUser == null">
+        <!-- User non loggato-->
+        <router-link class="nav-link" to="/loginPage">Welcome {{ loggedUser }}
+          <img src="../assets/user.png" style="width:30px; height: 30px;">
+        </router-link>
+      </li>
+
+
+      <li class="nav-item myItem flex-fill" v-else-if="roleUser == 'ROLE_AMMINISTRATORE'">
+        <!-- User loggato come amministratore-->
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Welcome {{ loggedUser }}
+          <img src="../assets/user.png" style="width:30px; height: 30px; float:right">
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end drop " aria-labelledby="navbarDropdown">
+          <li class="nav-item myRow"><a class="dropdown-item" href="#">Action</a></li>
+          <li class="nav-item myRow"><a class="dropdown-item" href="#">Another action</a></li>
+        </ul>
+
+      </li>
+
+
+      <li class="nav-item myItem flex-fill" v-else>
+        <!-- User loggato come tecnico interno-->
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Welcome {{ loggedUser }}
+          <img src="../assets/user.png" style="width:30px; height: 30px; float:right">
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end drop " aria-labelledby="navbarDropdown">
+          <li class="nav-item myRow"><a class="dropdown-item" href="#">Action</a></li>
+          <li class="nav-item myRow"><a class="dropdown-item" href="#">Another action</a></li>
+        </ul>
+
       </li>
     </ul>
 
@@ -50,11 +82,14 @@ export default {
     name: 'NavBar',
     data(){
       return{
-        loggedUser: ""
+        loggedUser: "",
+        roleUser: null
       }
     },
     created(){
       this.loggedUser += localStorage.getItem('user') ? localStorage.getItem('user') : "user";
+      if(localStorage.getItem('role') != undefined)
+        this.roleUser = localStorage.getItem('role');
     }
 }
 
@@ -63,6 +98,15 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
+.drop{
+  margin-top: 1px;
+  width: -webkit-fill-available;
+  right: auto !important;
+  background-color: #343A40 !important;
+}
+.myRow:hover, .myRow router-link{
+  background-color: transparent !important;
+}
 .navbarBtn{
   border: 1px solid rgba(125, 125, 125, 0.1); 
   border-radius: 10; 
@@ -83,7 +127,7 @@ nav{
 .NavBar {
   height: 139px;
 }
-li, img{
+li.myItem, img{
   height: 40px;
 
   margin-left: 10px;
@@ -92,11 +136,11 @@ li, img{
   display: inline-block;
 }
 
-.NavBar ul {
+.NavBar ul.myUl {
   display: inline-block;
   list-style: none;
 }
-li{
+li.myItem{
   margin: 0px;
   border-left: 0px;
   border-style: solid;
@@ -109,24 +153,24 @@ li{
   
 }
 
-ul{
+ul.myUl{
   list-style: none;
   padding: 0;
   margin: 0;
 }
-ul li{
+ul.myUl li.myItem{
   float: left;
   margin: 0 5pxrouter-link
 }
-ul li a{
+ul.myUl li.myItem a{
   text-decoration:none;
   color: white;
 }
-ul li a:hover{
+ul.myUl li.myItem a:hover{
   color: white;
   border-bottom: 2px solid #FF488A;
 }
-ul li a:focus{
+ul.myUl li.myItem a:focus{
   color: white;
 }
 .no-underline a:hover{
