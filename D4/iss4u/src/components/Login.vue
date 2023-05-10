@@ -25,10 +25,7 @@
 </template>
 
 <script>
-import axios from 'axios'
 import User from './../../../app/models/utente.js'
-import Auth from './../../../app/routes/auth.routes'
-
 import {login} from './../api/login'
 
     export default{
@@ -99,50 +96,6 @@ import {login} from './../api/login'
         },
     }
     
-    /*export default{
-        data(){
-            return{
-                user: new User(''),
-                name: "",
-                surname:"",
-                password: "",
-                loading: false,
-                message: '',
-                error: false,
-                error_message: "",
-            }
-        },
-        name: "Login",
-        created(){
-            if(this.loggedIn){
-                this.$router.push('/HomePage');
-            }
-        },
-        //connect to ../routes/auth.routes.js passing my data
-        methods: {
-            async login() {
-                const myData = {
-                    nome: this.name,
-                    cognome: this.surname,
-                    password: this.password
-                }
-                const myFile = require('./../../../app/routes/auth.routes.js')
-                // pass myData to myFile with the function login in axios
-                
-                axios.post('http://localhost:8080/src/routes/auth.routes.js', myData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }).then(response => {
-                    console.log(response)
-                }).catch(error => {
-                    console.log(error)
-                })
-
-
-            }
-        }
-    }*/
 </script>
 
 <style scoped>

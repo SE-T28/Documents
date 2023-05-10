@@ -19,9 +19,10 @@ const routeInfos = [
     { path: "/newsPage", component: NewsPage },
     { path: "/agenciesPage", component: AgenciesPage },
     { path: "/historyMissions", component: HistoryMissions },
-    //Componenti 
-    { path: "/components/Login.vue" , component: () => import('./components/Login.vue')},
     //{ path: "/routes/auth.routes.js" , component: () => import('./routes/auth.routes.js')},
+    { path: "/tasks" , component: () => import('./views/AllTasks.vue')},
+    {},
+    {}
     
 ]
     
