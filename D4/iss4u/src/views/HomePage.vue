@@ -21,6 +21,13 @@
     components: {
       HomeHeader, IssAPI, MyFooter, ComponentsViewVue
     },
+    created()
+    {
+      if(localStorage.getItem('reload')){
+        localStorage.removeItem('reload');
+        window.location.reload();
+      }
+    }
   };
   </script>
   

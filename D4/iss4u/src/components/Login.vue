@@ -46,8 +46,17 @@ import {login} from './../api/login'
         },
         name: "Login",
         created(){
-            if(this.loggedIn){
-                this.$router.push('/HomePage');
+            
+            // Questo è solo per il testing del token
+            localStorage.setItem('token', 'aoaoaoaoaoa');
+            localStorage.setItem('user', 'nome1');
+            localStorage.setItem('role', 'ROLE_AMMINISTRATORE');
+            // Aggiunta di un item reload al fine che quando si ripassa alla pagina home ricarica la pagina iniziale e funziona tutto per bene
+            localStorage.setItem('reload', true);
+
+            //localStorage.setItem('role', 'ROLE_TECNICO_INTERNO');
+            if(localStorage.getItem('role')){
+                this.$router.push('/');
             }
         },
         methods:{
@@ -72,8 +81,14 @@ import {login} from './../api/login'
                                 throw "Credenziali errate";
                             
                             localStorage.setItem('user', response.data.nome);
-                            this.$router.push('/');    
+                            localStorage.setItem('role', response.data.role);
+                            
+
+                            this.$router.push('/');
+                                
                         });
+                        //alert(localStorage.getItem(response.data.role));
+                        
                     }
                 }catch(error){
                     this.error_message = error

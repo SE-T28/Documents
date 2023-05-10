@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg " style="padding-left: 20px; padding-top: 0%;">
+  <nav class="navbar navbar-expand-lg " style="padding-left: 20px; padding-top: 0%; z-index: 100;">
 
     <button class="navbar-toggler navBarBtn" type="button" style="" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="true" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -25,7 +25,11 @@
         <router-link class="nav-link" to="/newsPage">News</router-link>
       </li>
       <li class="nav-item flex-fill">
-        <router-link class="nav-link" to="/loginPage">{{ user }}<img src="../assets/user.png" style="width:30px; height: 30px;"></router-link>
+        <router-link class="nav-link" to="/loginPage">Welcome {{ loggedUser }}
+          <!--<span v-if="loggedUser.name != undefined">{{ loggedUser.name }} </span>
+          <span v-else>user</span>-->
+          <img src="../assets/user.png" style="width:30px; height: 30px;">
+        </router-link>
         
       </li>
     </ul>
@@ -41,13 +45,16 @@
 
 
 import 'bootstrap'
+
 export default { 
     name: 'NavBar',
-    data() {
-        return {
-            user:
-                'Welcome User'
-        }
+    data(){
+      return{
+        loggedUser: ""
+      }
+    },
+    created(){
+      this.loggedUser += localStorage.getItem('user') ? localStorage.getItem('user') : "user";
     }
 }
 
