@@ -35,5 +35,6 @@
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  object-fit: cover;
 }
 </style>

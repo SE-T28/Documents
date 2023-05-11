@@ -82,7 +82,9 @@
     .pt1 img, .pt2 img{
         cursor: pointer;
     }
-
+    .pt2 img{
+        height: -webkit-fill-available;
+    }
     .triangle{
         width: 100%;
         height: 52px;
