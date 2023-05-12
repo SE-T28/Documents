@@ -23,7 +23,9 @@ const routeInfos = [
     { path: "/tasks" , component: () => import('./views/AllTasks.vue')},
     { path: "/addTask" , component: () => import('./components/FormAddTask.vue')},
     { path: "/editTask" , component: () => import('./components/FormEditTask.vue')},
-    { path: "/deleteTask", component: () => import('./components/FormDeleteTask.vue')}
+    { path: "/deleteTask", component: () => import('./components/FormDeleteTask.vue')},
+    { path: "/addUser" , component: () => import('./components/AddUser.vue')},
+    { path: "/deleteUser", component: () => import('./components/DeleteUser.vue')}
     
 ]
     

@@ -15,9 +15,6 @@
     import Footer from "../components/MyFooter.vue";
     export default{
         name: "AstronautsPage", 
-        data(){
-
-        },
         components:{
             AstronautsSlider,AstronautsBody, Footer,
         }
