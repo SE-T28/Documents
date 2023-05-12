@@ -116,8 +116,9 @@
     background: #fff;
     box-shadow: 12px 15px 20px 0px rgba(46,61,73,0.15);
     border-radius: 4px;
-    transition: all 0.3s ease;
-}
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
 .wrimagecard .fa{
 	position: relative;
     font-size: 70px;
