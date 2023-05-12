@@ -45,11 +45,11 @@ import {login} from './../api/login'
         created(){
             
             // Questo è solo per il testing del token
-            localStorage.setItem('token', 'aoaoaoaoaoa');
+            /*localStorage.setItem('token', 'aoaoaoaoaoa');
             localStorage.setItem('user', 'nome1');
             localStorage.setItem('role', 'ROLE_AMMINISTRATORE');
             // Aggiunta di un item reload al fine che quando si ripassa alla pagina home ricarica la pagina iniziale e funziona tutto per bene
-            localStorage.setItem('reload', true);
+            localStorage.setItem('reload', true);*/
 
             //localStorage.setItem('role', 'ROLE_TECNICO_INTERNO');
             if(localStorage.getItem('role')){
@@ -79,7 +79,7 @@ import {login} from './../api/login'
                             
                             localStorage.setItem('user', response.data.nome);
                             localStorage.setItem('role', response.data.role);
-                            
+                            localStorage.setItem('reload', true);
 
                             this.$router.push('/');
                                 

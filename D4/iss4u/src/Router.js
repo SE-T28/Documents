@@ -25,7 +25,8 @@ const routeInfos = [
     { path: "/editTask" , component: () => import('./components/FormEditTask.vue')},
     { path: "/deleteTask", component: () => import('./components/FormDeleteTask.vue')},
     { path: "/addUser" , component: () => import('./components/AddUser.vue')},
-    { path: "/deleteUser", component: () => import('./components/DeleteUser.vue')}
+    { path: "/deleteUser", component: () => import('./components/DeleteUser.vue')},
+    { path: "/logOut" , component: () => import('./components/LogOut.vue')},
     
 ]
     

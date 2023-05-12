@@ -3,7 +3,7 @@
     <div class="taskBody">
         <div class="container">
             <div class="col align-self-center prova">
-            <h1 class="myH1 title">Aggiungi utente</h1>
+            <h1 class="myH1 title">AGGIUNGI UTENTE</h1>
             <form class="form-floating">
                 <div class="row" v-if="isError">
                     <div class="col-md-12 error">
@@ -103,7 +103,7 @@
             Footer
         },
         created(){
-            if(!localStorage.getItem('role') == "ROLE_AMMINISTRATORE")
+            if(localStorage.getItem('role') != "ROLE_AMMINISTRATORE")
                 this.$router.push("/")
         }
     }
