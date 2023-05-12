@@ -21,8 +21,9 @@ const routeInfos = [
     { path: "/historyMissions", component: HistoryMissions },
     //{ path: "/routes/auth.routes.js" , component: () => import('./routes/auth.routes.js')},
     { path: "/tasks" , component: () => import('./views/AllTasks.vue')},
-    {},
-    {}
+    { path: "/addTask" , component: () => import('./components/FormAddTask.vue')},
+    { path: "/editTask" , component: () => import('./components/FormEditTask.vue')},
+    { path: "/deleteTask", component: () => import('./components/FormDeleteTask.vue')}
     
 ]
     
