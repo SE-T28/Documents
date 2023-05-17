@@ -7,7 +7,11 @@ const Utente= mongoose.model("utente", new mongoose.Schema({
     "numero_telefono": {type: String, required: true},
     "data_nascita": {type: String, required: true},
     "password": {type: String, required: true},
-    "role":{type: mongoose.Schema.Types.ObjectId, ref: "Role"}
+    "role":{type: mongoose.Schema.Types.ObjectId, ref: "Role"},
+    "immagine": {type: String, required: true},
+    "bio": {type: String, required: true},
+    "occupazione": {type: String, required: true},
+    "missioni": {type: String, required: true}
 }));
 
 module.exports= Utente;
