@@ -1,6 +1,7 @@
 <template>
+    <div class="triangle"></div>
     <div class="login">
-        <img src="../assets/earth.png" style="width:100%; height:100%; margin-top:-169px">
+        <div class="container">
         <div class="card">
             <h4 class="titleLogin">Log In! </h4>
             <div v-if="error" style="color: red; text-decoration: underline;" > {{ error_message }} </div>
@@ -19,7 +20,8 @@
                 <button class="btn" type="submit">Login</button>
             </form>
         </div>
-        
+    </div>
+
         
     </div>
 </template>
@@ -100,17 +102,22 @@ import {login} from './../api/login'
 
 <style scoped>
 
+    .login{
+        background-image: url('../assets/earth.png'); 
+        background-repeat: no-repeat; 
+        background-size: cover; 
+        height: 80vh; 
+        padding-top: 100px;
+    }
+
     .card {
         width: 500px;
         padding: 1.9rem 1.2rem;
         text-align: center;
         background: rgb(230, 230, 230);
-        
         margin: 0 auto;
         opacity: 1;
-        position: absolute;
-        margin-top: -40%;
-        margin-left: 50%;
+        
     }
 
 /*Inputs*/

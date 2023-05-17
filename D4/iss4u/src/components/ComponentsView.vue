@@ -19,7 +19,7 @@
                 
             
             <div class="row" style="margin-top: 50px;">
-                <div class="col-md-6 col-lg-6" v-for="container in containers" :key="container.id" @mouseover="showDescription(container)" @mouseleave="hideDescription(container)" @click="selectContainer(container)" :class="{ 'selected': selectedContainer === container }">
+                <div class="col-md-6 col-lg-6" v-for="container in containers" :key="container.nome" @mouseover="showDescription(container)" @mouseleave="hideDescription(container)" @click="selectContainer(container)" :class="{ 'selected': selectedContainer === container }">
                     <div class="card mb-4">
                         <img class="card-img-top" :src="container.image" alt="Card image cap">
                         <div class="card-body">
@@ -46,7 +46,7 @@
         </div>
         <div class="col-12 col-md-7 text-container">
             <div class="title-container">
-                <h2 class="selected-title"><span class=important-text>{{ selectedContainer.name }}</span></h2>
+                <h2 class="selected-title"><span class=important-text>{{ selectedContainer.nome }}</span></h2>
                 
                 <button type="button" class="btn close-button" @click="deselectContainer(container)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
@@ -55,15 +55,15 @@
               </button>
             </div>
             <div class="description-container">
-                <p><span class="important-text">Descrizione: </span>{{ selectedContainer.description }}</p>
-                <p><span class="important-text">Nazione: </span>{{ selectedContainer.nation }}</p>
+                <p><span class="important-text">Descrizione: </span>{{ selectedContainer.descrizione }}</p>
+                <p><span class="important-text">Nazione: </span>{{ selectedContainer.nazione }}</p>
                 <p><span class="important-text">Tipo / Applicazione: </span>{{ selectedContainer.application }}</p>
                 <p><span class="important-text">Operatore: </span>{{ selectedContainer.operator }}</p>
-                <p><span class="important-text">Contratti: </span>{{ selectedContainer.contractor }}</p>
+                <p><span class="important-text">Contratti: </span>{{ selectedContainer.contractors }}</p>
                 <p><span class="important-text">Energia: </span>{{ selectedContainer.power }}</p>
                 <p><span class="important-text">Massa: </span>{{ selectedContainer.mass }}</p>
-                <p><span class="important-text">launchDatea: </span>{{ selectedContainer.launchDate }}</p>
-                <p v-if="selectedContainer.otherDatails"><span class="important-text">Altri dettagli: </span>{{ selectedContainer.otherDatails }}</p>
+                <p><span class="important-text">launchDatea: </span>{{ selectedContainer.launch_date }}</p>
+                <p v-if="selectedContainer.otherDatails"><span class="important-text">Altri dettagli: </span>{{ selectedContainer.other_details }}</p>
             </div>
             </div>
         </div>
@@ -74,19 +74,8 @@
 </template>
 
 <script>
+    import { getComponents } from "../api/components";
     var id = 1;
-    // connect to database from "../models/db.js"
-    /*"nome" : {type: String, required:true},
-    "descrizione" : {type: String, required:true},
-    "nazione" : {type: String, required:true},
-    "application" : {type: String, required:true},
-    "operator" : {type: String, required:true},
-    "contrartors" : {type: String, required:true},
-    "power" : {type: String, required:true},
-    "mass" : {type: String, required:true},
-    "launchDate" : {type: String, required:true},
-    "other_details" : {type: String, required:false} */
-
     
     export default{
         data(){
@@ -94,7 +83,7 @@
                 searchQuery: null,
                 selectedContainer: null,
                 containers: [
-                    new Container("NAME1", "descrizione1 però che palle esce male sta roba", "nation1", "application1", "operator1", "contractor1", "power1", "mass1", "launchDate1", "https://via.placeholder.com/325x167", "other..."),
+                new Container("NAME1", "descrizione1 però che palle esce male sta roba", "nation1", "application1", "operator1", "contractor1", "power1", "mass1", "launchDate1", "https://via.placeholder.com/325x167", "other..."),
                     new Container("name2", "description2", "nation2", "application2", "operator2", "contractor2", "power2", "mass2", "launchDate2", "https://via.placeholder.com/325x167")
                     ,new Container("prova1", "description2", "nation2", "application2", "operator2", "contractor2", "power2", "mass2", "launchDate2", "https://via.placeholder.com/325x167")
                     ,new Container("swag", "description2", "nation2", "application2", "operator2", "contractor2", "power2", "mass2", "launchDate2", "https://via.placeholder.com/325x167")
@@ -102,7 +91,17 @@
                 ]
             }
         },
+        created(){
+            this.fetchComponents();
+        },
         methods: {
+            fetchComponents(){
+                getComponents().then(({data}) => {
+                    this.containers = data;
+                }).catch((error) => {
+                    console.log(error);
+                })
+            },
             showDescription(container) {
                 container.showDescription = true;
             },
@@ -120,7 +119,7 @@
             containers(){
                 if(this.searchQuery){
                     return this.containers.filter(item => {
-                        return this.searchQuery.toLowerCase().split(" ").every(v => item.name.toLowerCase().includes(v) || item.description.toLowerCase().includes(v))
+                        return this.searchQuery.toLowerCase().split(" ").every(v => item.nome.toLowerCase().includes(v) || item.descrizione.toLowerCase().includes(v))
                     });
                 }else{
                     return this.containers;
@@ -239,7 +238,7 @@
         border-radius: 10px !important;
         box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
         transition: transform 0.5s ease-out ;
-
+        width: 100%;
     }
     .row {
         margin-bottom: 20px;

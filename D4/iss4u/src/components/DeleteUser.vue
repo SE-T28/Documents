@@ -28,7 +28,7 @@
                 </div>
                 <div class="col-md-6 ">
                     <label for="checkbox" class="myLabel" >Sei sicuro di voler eliminare questo utente? </label>
-                    <input type="checkbox" id="checkbox" v-model="checked" style="margin: 20px;" />
+                    <input type="checkbox" id="checkbox" v-model="checked" style="margin: 20px;" required />
                 </div>
                 
                 <!-- input field of start date, end date, name, module, description, isCompleted, userId-->

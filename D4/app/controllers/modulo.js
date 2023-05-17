@@ -1,5 +1,6 @@
 const Modulo= require('../models/modulo');
 
+// GET 
 const getList= (req, res) => {
     Modulo.find({}, (err, data)=>{
         if (err){

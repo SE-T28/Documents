@@ -4,8 +4,11 @@
         <div class="container">
             <div class="col align-self-center prova">
             <h1 class="myH1 title">AGGIUNGI UTENTE</h1>
-            <form class="form-floating">
-                <div class="row" v-if="isError">
+            <form class="form-floating" @submit.prevent="addUser">
+                <div class="row fs-3" v-if="isError">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16" style="color:red">
+                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                    </svg>
                     <div class="col-md-12 error">
                         {{ error }}
                     </div>
@@ -68,7 +71,7 @@
                 <!-- input field of start date, end date, name, module, description, isCompleted, userId-->
                 <div class="row ">
                     <div class="col-md-12">
-                        <button class="btn btn-primary" type="submit" @click="addTask()">Aggiungi</button>
+                        <button class="btn btn-primary" type="submit">Aggiungi</button>
                     </div>
                     
                 </div>
@@ -82,6 +85,7 @@
 
 <script>
     import Footer from "./MyFooter.vue"
+    import {register} from "../api/register"
     export default{
         data(){
             return{
@@ -96,7 +100,9 @@
                 userName: "",
                 userSurname: "",
                 password: "",
-                date: ""
+                date: "",
+                isError: false,
+                error: ""
             }
         },
         components:{
@@ -105,8 +111,67 @@
         created(){
             if(localStorage.getItem('role') != "ROLE_AMMINISTRATORE")
                 this.$router.push("/")
-        }
-    }
+
+            this.isError = false;
+        },
+        methods:{
+            validateForm(){
+                //alert(this.date) 23-05-2021
+                if(/^ *$/.test(this.userName)){
+                    this.error = "Inserisci un nome";
+                    this.isError = true;
+                    return false;
+                }
+                if(/^ *$/.test(this.userSurname)){
+                    this.error = "Inserisci un cognome";
+                    this.isError = true;
+                    return false;
+                }
+                if(/^ *$/.test(this.mail)){
+                    this.error = "Inserisci una mail";
+                    this.isError = true;
+                    return false;
+                }
+                if(/^ *$/.test(this.password)){
+
+                    this.error = "Inserisci una password";
+                    this.isError = true;
+                    return false;
+                }
+                if(/^ *$/.test(this.date)){
+                    this.error = "Inserisci una data di nascita";
+                    this.isError = true;
+                    return false;
+                }
+            },
+            async addUser(){
+                this.isError = false;
+                this.error = "";
+                if(this.validateForm()){
+                    const user = {
+                        name: this.userName,
+                        surname: this.userSurname,
+                        email: this.mail,
+                        password: this.password,
+                        role: this.selected,
+                        bornDate: this.date,
+                        telefono: this.telefono
+                    }
+                    register(user).then(response => {
+                        if(response.status != 201){
+                            this.error = response.data.message;
+                            this.isError = true;
+                        }else{
+                            alert(response.data.message);
+                            this.$router.push("/users");
+                        }
+                    })
+                }else{
+                    
+                }
+                
+            }
+        }}
 </script>
 
 <style scoped>

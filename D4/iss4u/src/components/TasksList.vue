@@ -91,6 +91,10 @@
     }
     .card{
         overflow-y: scroll;
+        
+    }
+    .card::-webkit-scrollbar{
+        width: 0;
     }
     .sec{
         border-bottom: 1px solid rgb(219, 219, 219);

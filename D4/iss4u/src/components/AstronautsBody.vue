@@ -23,10 +23,10 @@
                                 <img src="https://via.placeholder.com/167x200" style="height: 100%; width: 100%;" class="leftImage" alt="...">
                             </div>
                             <div class="col-6">
-                                <p class="text-center fs-2" style="font-weight: 550; margin-top: 10px;  color: #0EA2BD"> {{ astronaut.name }} {{ astronaut.surname }} </p>
-                                <p class="text-start"><span class="fw-bolder" style="color: #0EA2BD">Nascita: </span>{{ astronaut.date }}</p>
-                                <p class="text-start"><span class="fw-bolder" style="color: #0EA2BD">Occupazione: </span>{{ astronaut.occupation }}</p>
-                                <p class="text-start"><span class="fw-bolder" style="color: #0EA2BD">Missioni: </span>{{ astronaut.missions }}</p>
+                                <p class="text-center fs-2" style="font-weight: 550; margin-top: 10px;  color: #0EA2BD"> {{ astronaut.nome }} {{ astronaut.cognome }} </p>
+                                <p class="text-start"><span class="fw-bolder" style="color: #0EA2BD">Nascita: </span>{{ astronaut.data_nascita }}</p>
+                                <p class="text-start"><span class="fw-bolder" style="color: #0EA2BD">Occupazione: </span>{{ astronaut.email }}</p>
+                                <p class="text-start"><span class="fw-bolder" style="color: #0EA2BD">Missioni: </span>{{ astronaut.role }}</p>
                                 <p class="text-start"><span class="fw-bolder" style="color: #0EA2BD">Biografia: </span>{{ astronaut.bio }}</p>
                             </div>
                         </div>
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+    import { getCrew } from "../api/astronauts";
     var id = 1;
 
     export default{
@@ -48,9 +49,22 @@
             return{
                 searchQuery : null,
                 astronauts:[
-                    new Astronaut("Nome1", "Cognome1", "Data1", "Occupazione1", "Missione1", "Bio1", "https://via.placeholder.com/167x200"),
+                new Astronaut("Nome1", "Cognome1", "Data1", "Occupazione1", "Missione1", "Bio1", "https://via.placeholder.com/167x200"),
                     
                 ]
+            }
+        },
+        name: "AstronautsBody",
+        created(){
+            this.getAstronauts();
+        },  
+        methods:{
+            getAstronauts(){
+                getCrew().then(({data}) => {
+                    this.astronauts = data;
+                }).catch(error =>{
+                    console.log(error);
+                })
             }
         },
         computed:{
