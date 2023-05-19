@@ -28,7 +28,7 @@
 
 <script>
 import User from './../../../app/models/utente.js'
-import {login} from './../api/login'
+import {login} from '../api/users/login.js'
 
     export default{
         data(){

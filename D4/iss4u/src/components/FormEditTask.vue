@@ -5,7 +5,7 @@
             <form class="form-floating">
                 <div class="row" v-if="isError">
                     <div class="col-md-12 error">
-                        {{ error }}
+                        Errore {{ error }}
                     </div>
                 </div>
                 <div class="row form-floating">
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-
+    import { editTask } from '../api/tasks/editTask'
     export default{
         name: "FormAddTask",
         data(){
@@ -91,7 +91,63 @@
         },
         methods:{
             editTask(){
-                // Btn 
+                if(this.validateForm()){
+                    const task = {
+                        nome: this.taskName,
+                        descrizione: this.txtDescription,
+                        dataInizio: this.startDate,
+                        dataFine: this.endDate,
+                        modulo: this.moduleName,
+                        completato: this.checked,
+                        idUtente: this.idUser
+                    };
+                    editTask(this.oldTaskName, task).then((response) => {
+                        if(response.status === 200){
+                            alert("Task modificata con successo")
+                            this.$router.push("/tasks");
+                        }else{
+                            this.error = response.status + ": " + response.statusText;
+                            this.isError = true;
+                        }
+                    }).catch((error) => {
+                        this.error = "Errore nella modifica della task";
+                        this.isError = true;
+                    })
+                }
+            },
+            validateForm(){
+                // validate form
+                if(this.startDate === "" ){
+                    this.error = "Inserisci una data di inizio";
+                    this.isError = true;
+                    return false;
+                }
+                if(this.endDate === "" ){
+                    this.error = "Inserisci una data di fine";
+                    this.isError = true;
+                    return false;
+                }
+                if(/^ *$/.test(this.taskName)){
+                    this.error = "Inserisci un nome per la task";
+                    this.isError = true;
+                    return false;
+                }
+                if(/^ *$/.test(this.moduleName)){
+                    this.error = "Inserisci un nome per il modulo";
+                    this.isError = true;
+                    return false;
+                }
+                if(/^ *$/.test(this.txtDescription)){
+                    this.error = "Inserisci una descrizione";
+                    this.isError = true;
+                    return false;
+                }
+                if(this.isAmministratore && /^ *$/.test(this.idUser)){
+                    this.error = "Inserisci un id utente";
+                    this.isError = true;
+                    return false;
+                }
+                return true;
             }
         }
     }

@@ -34,7 +34,7 @@
                 <!-- input field of start date, end date, name, module, description, isCompleted, userId-->
                 <div class="row ">
                     <div class="col-md-12">
-                        <button class="btn btn-primary" type="submit" @click="addTask()">Elimina</button>
+                        <button class="btn btn-primary" type="submit" @click="deleteTask()">Elimina</button>
                     </div>
                     
                 </div>
@@ -48,13 +48,15 @@
 
 <script>
     import Footer from "./MyFooter.vue"
+    import {deleteUser} from "../api/users/deleteUser"
     export default{
         data(){
             return{
                 checked: false,
                 userName: "",
                 userSurname: "",
-
+                error : "",
+                isError: false
             }
         },
         components:{
@@ -63,6 +65,52 @@
         created(){
             if(localStorage.getItem('role') != "ROLE_AMMINISTRATORE")
                 this.$router.push("/")
+
+            this.isError = false;
+        },
+        methods:{
+            deleteTask(){
+                if(this.checkForm()){
+                    
+                    const user = {
+                        nome: this.userName,
+                        cognome: this.userSurname
+                    }
+                    deleteUser(user).then(response=>{
+                        if(response.status === 200 || response.status === 202 || response.status === 204){
+                            alert("Utente eliminato con successo");
+                            this.$router.push("/");
+
+                        }else{
+                            this.isError = true;
+                            this.error = response.status+": "+response.data.message;
+                        }
+                        
+                    });
+                    
+                }
+                
+                
+            },
+            checkForm(){
+                if(!this.checked){
+                    this.isError = true;
+                    this.error = "Devi selezionare la casella per poter eliminare l'utente";
+                    return false;
+                }
+                if(/^ *$/.test(this.userName)){
+                    this.isError = true;
+                    this.error = "Devi inserire un nome";
+                    return false;
+                }
+                if(/^ *$/.test(this.userSurname)){
+                    this.isError = true;
+                    this.error = "Devi inserire un cognome";
+                    return false;
+                }
+                return true;
+                
+            }
         }
     }
 </script>

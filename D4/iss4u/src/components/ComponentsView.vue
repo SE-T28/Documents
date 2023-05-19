@@ -74,7 +74,7 @@
 </template>
 
 <script>
-    import { getComponents } from "../api/components";
+    import { getComponents } from "../api/components/components";
     var id = 1;
     
     export default{
@@ -97,7 +97,14 @@
         methods: {
             fetchComponents(){
                 getComponents().then(({data}) => {
-                    this.containers = data;
+                    for(let i = 0; i < data.length; i++){
+                        // Src the image on the web and if it doesn't exist, use a placeholder
+                        let image = data[i].image;
+                        if(image == null){
+                            image = "https://via.placeholder.com/325x167";
+                        }
+                        this.containers.push(new Container(data[i].nome, data[i].descrizione, data[i].nazione, data[i].tipo_applicazione, data[i].operatore, data[i].contratti, data[i].energia, data[i].massa, data[i].launch_date, image, data[i].other_details));
+                    }
                 }).catch((error) => {
                     console.log(error);
                 })

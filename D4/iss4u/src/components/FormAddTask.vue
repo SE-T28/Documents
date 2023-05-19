@@ -59,6 +59,7 @@
 </template>
 
 <script>
+    import {addTask} from "../api/tasks/addTask"
 
     export default{
         name: "FormAddTask",
@@ -67,6 +68,8 @@
                 isAmministratore: false,
                 txtDescription: "",
                 moduleName: "",
+                startDate : "",
+                endDate: "",
                 taskName: "",
                 checked: false,
                 idUser: "",
@@ -81,10 +84,63 @@
             }else if(localStorage.getItem('role') === 'ROLE_AMMINISTRATORE'){
                 this.isAmministratore = true;
             }
+            this.isError = false;
+            this.error = "";
         },
         methods:{
             addTask(){
-                // Btn 
+                if(this.validateForm){
+                    const task = {
+                        startDate: this.startDate,
+                        endDate: this.endDate,
+                        taskName: this.taskName,
+                        moduleName: this.moduleName,
+                        txtDescription: this.txtDescription,
+                        idUser: this.idUser
+                    };
+                    addTask(task).then(response =>{
+                        if(response.status === 201){
+                            alert("Task aggiunta con successo");
+                            this.$router.push("/tasks");
+                        }else{
+                            this.isError = true;
+                            this.error = response.status+": "+response.data.message;
+                        }
+                    });
+            }},
+            validateForm(){
+                // validate form
+                if(this.startDate === "" ){
+                    this.error = "Inserisci una data di inizio";
+                    this.isError = true;
+                    return false;
+                }
+                if(this.endDate === "" ){
+                    this.error = "Inserisci una data di fine";
+                    this.isError = true;
+                    return false;
+                }
+                if(/^ *$/.test(this.taskName)){
+                    this.error = "Inserisci un nome per la task";
+                    this.isError = true;
+                    return false;
+                }
+                if(/^ *$/.test(this.moduleName)){
+                    this.error = "Inserisci un nome per il modulo";
+                    this.isError = true;
+                    return false;
+                }
+                if(/^ *$/.test(this.txtDescription)){
+                    this.error = "Inserisci una descrizione";
+                    this.isError = true;
+                    return false;
+                }
+                if(this.isAmministratore && /^ *$/.test(this.idUser)){
+                    this.error = "Inserisci un id utente";
+                    this.isError = true;
+                    return false;
+                }
+                return true;
             }
         }
     }

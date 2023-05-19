@@ -41,7 +41,7 @@
 </template>
 
 <script>
-    import { getCrew } from "../api/astronauts";
+    import { getCrew } from "../api/users/astronauts";
     var id = 1;
 
     export default{
@@ -61,7 +61,22 @@
         methods:{
             getAstronauts(){
                 getCrew().then(({data}) => {
-                    this.astronauts = data;
+                    for(let i = 0; i < data.length; i++){
+                        let image = data[i].image;
+                        if(image == null){
+                            image = "https://via.placeholder.com/167x200";
+                        }
+                        this.astronauts.push(new Astronaut(
+                            data[i].nome, 
+                            data[i].cognome, 
+                            data[i].data_nascita, 
+                            data[i].email, 
+                            data[i].role, 
+                            data[i].bio,
+                            image 
+                        ));
+                    }
+                    
                 }).catch(error =>{
                     console.log(error);
                 })
@@ -82,7 +97,7 @@
 
     }
     class Astronaut{
-        constructor(name, surname, date, occupation, missions, bio = null, image){
+        constructor(name, surname, date, occupation, missions, bio = null, image = "https://via.placeholder.com/167x200"){
             this.id = id++;
             this.name = name;
             this.surname = surname;

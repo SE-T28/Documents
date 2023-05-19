@@ -85,7 +85,7 @@
 
 <script>
     import Footer from "./MyFooter.vue"
-    import {register} from "../api/register"
+    import {register} from "../api/users/register"
     export default{
         data(){
             return{
@@ -163,7 +163,7 @@
                             this.isError = true;
                         }else{
                             alert(response.data.message);
-                            this.$router.push("/users");
+                            this.$router.push("/astronautsPage");
                         }
                     })
                 }else{

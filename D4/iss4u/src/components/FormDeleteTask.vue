@@ -13,11 +13,16 @@
                         <input type="text" class="form-control" id="Name" v-model="taskName">
                         <label for="Name" class="myLabel"> &nbsp; &nbsp;Nome task</label>
                     </div>
+                    <div class="col-md-6 ">
+                        <label for="checkbox" class="myLabel" >Sei sicuro di voler eliminare questa task? </label>
+                        <input type="checkbox" id="checkbox" v-model="checked" style="margin: 20px;" required />
+                    </div>
                 </div>
                 <div class="row ">
                     <div class="col-md-12">
                         <button class="btn btn-primary" type="submit" @click="deleteTask()">Elimina</button>
                     </div>
+                    
                     
                 </div>
             </form>
@@ -28,11 +33,13 @@
 </template>
 
 <script>
-
+    import { deleteTask } from '../api/tasks/deleteTask'
     export default{
         data(){
             return{
+                checked: false,
                 error: "",
+                taskName: "",
                 isError: false,
                 isAmministratore: false
             }
@@ -46,7 +53,34 @@
         },
         methods:{
             deleteTask(){
-                
+                if(this.checkForm()){
+                    deleteTask(this.taskName).then((response) => {
+                        if(response.status === 200){
+                            alert("Task eliminata con successo")
+                            this.$router.push("/tasks");
+                        }else{
+                            //status + message
+                            this.error = response.status + ": " + response.data.message;
+                            this.isError = true;
+                        }
+                    }).catch((error) => {
+                        this.error = error.response.data.message;
+                        this.isError = true;
+                    })
+                }
+            },
+            checkForm(){
+                if(!this.checked){
+                    this.error = "Devi spuntare la casella per eliminare la task";
+                    this.isError = true;
+                    return false;  
+                }
+                if(/^ *$/.test(this.taskName)){
+                    this.error = "Devi inserire il nome della task";
+                    this.isError = true;
+                    return false;
+                }
+                return true;
             }
         }
     }
