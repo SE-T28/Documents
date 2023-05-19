@@ -10,7 +10,7 @@
 
                     <!-- Classificazione di ogni news, da aggiungere una classe per ogni news istanziata dal DB -->
                     <!-- Aggiunta di un overlay-y al div dopo l'immagine -->
-                    <section class="sec" v-for="info in news" :key="info.id" @mouseclick="$router.push(info.link)"> 
+                    <section class="sec"  v-if="news.length != 0" v-for="info in news" :key="info.id" @mouseclick="$router.push(info.link)"> 
                         <div class="row gx-5">
                         <div class="col-md-3 mb-3">
                             <div class="bg-image hover-overlay ripple newsImg" data-mdb-ripple-color="light">
@@ -29,6 +29,9 @@
                         </div>
                         </div>
                     </section> 
+                    <section v-else style="color:white; text-decoration: underline">
+                        <p> Nessuna news al momento</p>
+                    </section>
 
                 </div>
             </div>
@@ -41,14 +44,13 @@
 
 import Footer from '../components/MyFooter.vue'
 import img1 from '../assets/IssModel.png'
+import { getNews } from '../api/Info/getNews'
 
 export default{
     data(){
         return {
             news:[
-                new Info("Title info1", "description1", img1),
-                new Info("Title info2", "description2", img1),
-                new Info("Title info3", "description3", img1)
+                
             ]
         }
     },
@@ -56,7 +58,25 @@ export default{
         Footer
     },
     methods:{
-        // Metodo di crezione classe
+        fetchNews(){
+            getNews().then((response) => 
+            {
+                if(response.status === 200){
+                    for(let i = 0; i < response.data.length; i++){
+                        let img = response.data[i].image
+                        if(img === null){
+                            img = img1
+                        }
+                        this.news.push(new Info(response.data[i].title, response.data[i].description, img, response.data[i].link))
+                    }
+                }else{
+                    alert("Errore nel caricamento delle news")
+                }
+            });
+        }
+    },
+    created(){
+        this.fetchNews();
     }
 
 

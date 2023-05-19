@@ -49,7 +49,7 @@
             return{
                 searchQuery : null,
                 astronauts:[
-                new Astronaut("Nome1", "Cognome1", "Data1", "Occupazione1", "Missione1", "Bio1", "https://via.placeholder.com/167x200"),
+                //new Astronaut("Nome1", "Cognome1", "Data1", "Occupazione1", "Missione1", "Bio1", "https://via.placeholder.com/167x200"),
                     
                 ]
             }

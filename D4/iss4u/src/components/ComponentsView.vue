@@ -83,11 +83,11 @@
                 searchQuery: null,
                 selectedContainer: null,
                 containers: [
-                new Container("NAME1", "descrizione1 però che palle esce male sta roba", "nation1", "application1", "operator1", "contractor1", "power1", "mass1", "launchDate1", "https://via.placeholder.com/325x167", "other..."),
+/*                new Container("NAME1", "descrizione1 però che palle esce male sta roba", "nation1", "application1", "operator1", "contractor1", "power1", "mass1", "launchDate1", "https://via.placeholder.com/325x167", "other..."),
                     new Container("name2", "description2", "nation2", "application2", "operator2", "contractor2", "power2", "mass2", "launchDate2", "https://via.placeholder.com/325x167")
                     ,new Container("prova1", "description2", "nation2", "application2", "operator2", "contractor2", "power2", "mass2", "launchDate2", "https://via.placeholder.com/325x167")
                     ,new Container("swag", "description2", "nation2", "application2", "operator2", "contractor2", "power2", "mass2", "launchDate2", "https://via.placeholder.com/325x167")
-
+*/
                 ]
             }
         },

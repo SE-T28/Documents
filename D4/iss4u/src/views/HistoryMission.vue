@@ -10,7 +10,7 @@
 
                     <!-- Classificazione di ogni news, da aggiungere una classe per ogni news istanziata dal DB -->
                     <!-- Aggiunta di un overlay-y al div dopo l'immagine -->
-                    <section class="sec" v-for="info in missions" :key="info.id"> 
+                    <section class="sec"  v-if="missions.length != 0" v-for="info in missions" :key="info.id"> 
                         <div class="row gx-5">
                         <div class="col-md-3 mb-3">
                             <div class="bg-image hover-overlay ripple newsImg" data-mdb-ripple-color="light">
@@ -29,6 +29,9 @@
                         </div>
                         </div>
                     </section> 
+                    <section v-else style="color:white; text-decoration: underline">
+                        <p> Nessuna missione al momento</p>
+                    </section>
 
                 </div>
             </div>
@@ -41,22 +44,37 @@
 
 import Footer from '../components/MyFooter.vue'
 import img1 from '../assets/IssModel.png'
+import { getMissions } from '../api/missions/missions'
+
 
 export default{
     data(){
         return {
-            missions:[
-                new Mission("Title info1", "description1" , "1/1/1990", img1)/*,
-                new Mission("Title info2", "description2", "2/2/2002",img1),
-                new Mission("Title info3", "description3", "3/3/1947",img1)*/
-            ]
+            missions:[]
         }
     },
     components:{
         Footer
     },
+    created(){
+        this.fetchMissions();
+    },
     methods:{
-        // Metodo di crezione classe
+        fetchMissions(){
+            getMissions().then((response) => {
+                if(response.status === 200){
+                    for(let i = 0; i < response.data.length; i++){
+                        let img = response.data[i].image
+                        if(img === null){
+                            img = img1
+                        }
+                        this.missions.push(new Mission(response.data[i].title, response.data[i].description, response.data[i].date, img, response.data[i].link))
+                    }
+                }else{
+                    alert("Errore nel caricamento delle missioni")
+                }
+            })
+        }
     }
 
 
