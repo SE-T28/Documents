@@ -29,7 +29,7 @@
                         </div>
                         </div>
                     </section> 
-                    <section v-else style="color:white; text-decoration: underline">
+                    <section v-else style="color:white;text-decoration: underline">
                         <p> Nessuna news al momento</p>
                     </section>
 
@@ -50,7 +50,8 @@ export default{
     data(){
         return {
             news:[
-                
+                new Info("Titolo1", "Descrizione1", img1),
+                new Info("Titolo2", "Descrizione2", img1),
             ]
         }
     },

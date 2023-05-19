@@ -50,7 +50,11 @@ import { getMissions } from '../api/missions/missions'
 export default{
     data(){
         return {
-            missions:[]
+            missions:[
+                new Mission("Titolo1", "Descrizione1", "Data1", img1),
+                new Mission("Titolo2", "Descrizione2", "Data2", img1),
+                
+            ]
         }
     },
     components:{
