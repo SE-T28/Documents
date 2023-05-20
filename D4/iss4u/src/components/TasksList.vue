@@ -59,11 +59,11 @@
             return{
                 searchQuery: null,
                 tasks:[
-                    new Task("11/09/2002", "18/09/2002", "Torri_gemelle" , "altra torre", "attacco magico", "s23vbr3"),
+                    /*new Task("11/09/2002", "18/09/2002", "Torri_gemelle" , "altra torre", "attacco magico", "s23vbr3"),
                     new Task("11/09/2002", "18/09/2002", "Torri_gemelle" , "terza torre", "attacco magico", "a66xbx3"),
                     new Task("11/09/2002", "18/09/2002", "Torri_gemelle" , "terza torre", "attacco magico", "a66xbx3"),
                     new Task("11/09/2002", "18/09/2002", "Torri_gemelle" , "terza torre", "attacco magico", "a66xbx3"),
-                    new Task("11/09/2002", "18/09/2002", "Torri_gemelle" , "quarta torre", "attacco magico")
+                    new Task("11/09/2002", "18/09/2002", "Torri_gemelle" , "quarta torre", "attacco magico")*/
                 ],
                 value : 0
             }
@@ -76,16 +76,18 @@
         },
         methods:{
             getList(){
-                getTasks().then((response) => {
-                    for(let i = 0; i < response.data.length; i++){
+                getTasks().then(({data}) => {
+
+                    for(let i = 0; i < data.length; i++){
                         this.tasks.push(
                             new Task(
-                                response.data[i].dataInizio, 
-                                response.data[i].dataFine, 
-                                response.data[i].nome, 
-                                response.data[i].modulo, 
-                                response.data[i].descrizione, 
-                                response.data[i].id
+                                data[i].data_inizio, 
+                                data[i].data_fine, 
+                                data[i].nome, 
+                                data[i].modulo, 
+                                data[i].descrizione, 
+                                data[i].userId,
+                                data[i].completata
                             ))
                     }
                 })
@@ -106,13 +108,14 @@
     }
 
     class Task{
-        constructor(dataInizio, dataFine, nome, modulo, descrizione, id = null){
+        constructor(dataInizio, dataFine, nome, modulo, descrizione, id = null, completata = false){
             this.dataInizio = dataInizio;
             this.dataFine = dataFine;
             this.nome = nome;
             this.modulo = modulo;
             this.descrizione = descrizione;
             this.id = id;
+            this.completata = completata;
 
             this.value = value;
             value = value +1;

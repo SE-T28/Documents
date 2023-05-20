@@ -20,13 +20,14 @@
                     <div class="card mb-4">
                         <div class="row" style="margin-bottom: 0;">
                             <div class="col">
-                                <img src="https://via.placeholder.com/167x200" style="height: 100%; width: 100%;" class="leftImage" alt="...">
+                                <img :src=" astronaut.image " style="height: 100%; width: 100%;" class="leftImage" alt="...">
                             </div>
                             <div class="col-6">
-                                <p class="text-center fs-2" style="font-weight: 550; margin-top: 10px;  color: #0EA2BD"> {{ astronaut.nome }} {{ astronaut.cognome }} </p>
-                                <p class="text-start"><span class="fw-bolder" style="color: #0EA2BD">Nascita: </span>{{ astronaut.data_nascita }}</p>
-                                <p class="text-start"><span class="fw-bolder" style="color: #0EA2BD">Occupazione: </span>{{ astronaut.email }}</p>
-                                <p class="text-start"><span class="fw-bolder" style="color: #0EA2BD">Missioni: </span>{{ astronaut.role }}</p>
+                                <!--name, surname, date, occupation, missions, bio = null, image-->
+                                <p class="text-center fs-2" style="font-weight: 550; margin-top: 10px;  color: #0EA2BD"> {{ astronaut.name }} {{ astronaut.surname }} </p>
+                                <p class="text-start"><span class="fw-bolder" style="color: #0EA2BD">Nascita: </span>{{ astronaut.date }}</p>
+                                <p class="text-start"><span class="fw-bolder" style="color: #0EA2BD">Occupazione: </span>{{ astronaut.occupation }}</p>
+                                <p class="text-start"><span class="fw-bolder" style="color: #0EA2BD">Missioni: </span>{{ astronaut.missions }}</p>
                                 <p class="text-start"><span class="fw-bolder" style="color: #0EA2BD">Biografia: </span>{{ astronaut.bio }}</p>
                             </div>
                         </div>
@@ -59,22 +60,36 @@
             this.getAstronauts();
         },  
         methods:{
+            imageExists(url){
+                return new Promise(resolve => {
+                    const image = new Image();
+                    image.onload = () => resolve(true);
+                    image.onerror = () => resolve(false);
+                    image.src = url;
+                });
+            },
             getAstronauts(){
                 getCrew().then(({data}) => {
                     for(let i = 0; i < data.length; i++){
+                        if(data[i].role != "ROLE_AMMINISTRATORE" || data[i].role != "AMMINISTRATORE"){
                         let image = data[i].image;
-                        if(image == null){
-                            image = "https://via.placeholder.com/167x200";
+                        this.imageExists(image).then(ok => {
+                            if(!ok){
+                                image = "https://via.placeholder.com/167x200";
+                            }
+                            //name, surname, date,mail, occupation, missions, image
+                            this.astronauts.push(new Astronaut(
+                                data[i].nome, 
+                                data[i].cognome, 
+                                data[i].data_nascita, 
+                                data[i].email, 
+                                data[i].occupazione, 
+                                data[i].missioni,
+                                image,
+                                data[i].bio
+                            ));
+                        });
                         }
-                        this.astronauts.push(new Astronaut(
-                            data[i].nome, 
-                            data[i].cognome, 
-                            data[i].data_nascita, 
-                            data[i].email, 
-                            data[i].role, 
-                            data[i].bio,
-                            image 
-                        ));
                     }
                     
                 }).catch(error =>{
@@ -97,11 +112,12 @@
 
     }
     class Astronaut{
-        constructor(name, surname, date, occupation, missions, bio = null, image = "https://via.placeholder.com/167x200"){
+        constructor(name, surname, date,mail, occupation, missions, image = "https://via.placeholder.com/167x200", bio = null,){
             this.id = id++;
             this.name = name;
             this.surname = surname;
             this.date = date;
+            this.mail = mail;
             this.occupation = occupation;
             this.missions = missions;
             this.bio = bio;

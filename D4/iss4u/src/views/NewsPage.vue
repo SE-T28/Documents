@@ -50,8 +50,8 @@ export default{
     data(){
         return {
             news:[
-                new Info("Titolo1", "Descrizione1", img1),
-                new Info("Titolo2", "Descrizione2", img1),
+                /*new Info("Titolo1", "Descrizione1", img1),
+                new Info("Titolo2", "Descrizione2", img1),*/
             ]
         }
     },
@@ -59,16 +59,26 @@ export default{
         Footer
     },
     methods:{
-        fetchNews(){
+        imageExists(url){
+            return new Promise(resolve => {
+                const img = new Image();
+                img.onload = () => resolve(true);
+                img.onerror = () => resolve(false);
+                img.src = url;
+            })
+        }
+        ,fetchNews(){
             getNews().then((response) => 
             {
                 if(response.status === 200){
                     for(let i = 0; i < response.data.length; i++){
-                        let img = response.data[i].image
-                        if(img === null){
-                            img = img1
-                        }
-                        this.news.push(new Info(response.data[i].title, response.data[i].description, img, response.data[i].link))
+                        let img = response.data[i].copertina
+                        this.imageExists(img).then(ok => {
+                            if(!ok){
+                                img = img1;
+                            }
+                            this.news.push(new Info(response.data[i].titolo, response.data[i].descrizione, img, response.data[i].link))
+                        });
                     }
                 }else{
                     alert("Errore nel caricamento delle news")
@@ -89,6 +99,9 @@ class Info{
         this.title = title
         this.description = description
         this.image = image
+        if(link == null){
+            link = "/newsPage"
+        }
         this.link = link
 
         //Identificazione univoca della News

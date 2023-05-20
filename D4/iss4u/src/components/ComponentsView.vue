@@ -46,7 +46,7 @@
         </div>
         <div class="col-12 col-md-7 text-container">
             <div class="title-container">
-                <h2 class="selected-title"><span class=important-text>{{ selectedContainer.nome }}</span></h2>
+                <h2 class="selected-title"><span class=important-text>{{ selectedContainer.name }}</span></h2>
                 
                 <button type="button" class="btn close-button" @click="deselectContainer(container)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
@@ -55,15 +55,15 @@
               </button>
             </div>
             <div class="description-container">
-                <p><span class="important-text">Descrizione: </span>{{ selectedContainer.descrizione }}</p>
-                <p><span class="important-text">Nazione: </span>{{ selectedContainer.nazione }}</p>
+                <p><span class="important-text">Descrizione: </span>{{ selectedContainer.description }}</p>
+                <p><span class="important-text">Nazione: </span>{{ selectedContainer.nation }}</p>
                 <p><span class="important-text">Tipo / Applicazione: </span>{{ selectedContainer.application }}</p>
                 <p><span class="important-text">Operatore: </span>{{ selectedContainer.operator }}</p>
-                <p><span class="important-text">Contratti: </span>{{ selectedContainer.contractors }}</p>
+                <p><span class="important-text">Contratti: </span>{{ selectedContainer.contractor }}</p>
                 <p><span class="important-text">Energia: </span>{{ selectedContainer.power }}</p>
                 <p><span class="important-text">Massa: </span>{{ selectedContainer.mass }}</p>
-                <p><span class="important-text">launchDatea: </span>{{ selectedContainer.launch_date }}</p>
-                <p v-if="selectedContainer.otherDatails"><span class="important-text">Altri dettagli: </span>{{ selectedContainer.other_details }}</p>
+                <p><span class="important-text">launch date: </span>{{ selectedContainer.launchDate }}</p>
+                <p v-if="selectedContainer.otherDatails"><span class="important-text">Altri dettagli: </span>{{ selectedContainer.otherDatails }}</p>
             </div>
             </div>
         </div>
@@ -83,11 +83,11 @@
                 searchQuery: null,
                 selectedContainer: null,
                 containers: [
-                    new Container("NAME1", "descrizione1 però che palle esce male sta roba", "nation1", "application1", "operator1", "contractor1", "power1", "mass1", "launchDate1", "https://via.placeholder.com/325x167", "other..."),
+                    /*new Container("NAME1", "descrizione1 però che palle esce male sta roba", "nation1", "application1", "operator1", "contractor1", "power1", "mass1", "launchDate1", "https://via.placeholder.com/325x167", "other..."),
                     new Container("name2", "description2", "nation2", "application2", "operator2", "contractor2", "power2", "mass2", "launchDate2", "https://via.placeholder.com/325x167")
                     ,new Container("prova1", "description2", "nation2", "application2", "operator2", "contractor2", "power2", "mass2", "launchDate2", "https://via.placeholder.com/325x167")
                     ,new Container("swag", "description2", "nation2", "application2", "operator2", "contractor2", "power2", "mass2", "launchDate2", "https://via.placeholder.com/325x167")
-
+                    */
                 ]
             }
         },
@@ -95,17 +95,39 @@
             this.fetchComponents();
         },
         methods: {
+            imageExists(url){
+                console.log(url);
+                return new Promise(resolve=>{
+                    var img = new Image();
+                    img.onload = ()=> resolve(true);
+                    img.onerror = ()=> resolve(false);
+                    img.src = url;
+                });
+            },
             fetchComponents(){
                 getComponents().then(({data}) => {
+                    
                     for(let i = 0; i < data.length; i++){
                         // Src the image on the web and if it doesn't exist, use a placeholder
-                        let image = data[i].image;
-                        if(image == null){
-                            image = "https://via.placeholder.com/325x167";
-                        }
-                        this.containers.push(new Container(data[i].nome, data[i].descrizione, data[i].nazione, data[i].tipo_applicazione, data[i].operatore, data[i].contratti, data[i].energia, data[i].massa, data[i].launch_date, image, data[i].other_details));
+                        var image = data[i].image;
+                        this.imageExists(image).then(ok => {
+                            if(!ok){
+                                image = "https://via.placeholder.com/325x167";
+                            }
+                            this.containers.push(new Container(data[i].nome, data[i].descrizione, data[i].nazione, data[i].application, data[i].operator, data[i].contractors, data[i].power, data[i].mass, data[i].launch_date, image, data[i].other_details));
+
+                        });
                     }
                 }).catch((error) => {
+                    /*this.immagine = "https://okokok.jpg";
+                    this.imageExists(this.immagine).then(ok => {
+                            console.log(ok);    
+                            if(!ok){
+                                this.immagine = "https://via.placeholder.com/325x167";
+                            }
+                            this.containers.push(new Container("Nessun componente al momento", "Nessuna descrizione", "Nessuna nazione", "Nessuna applicazione", "Nessun operatore", "Nessun contractor", "Nessuna energia", "Nessuna massa", "Nessuna data di lancio", this.immagine));
+                        });*/
+                    
                     console.log(error);
                 })
             },
@@ -136,7 +158,7 @@
     }
     class Container{
         // 
-        constructor(name, description, nation, application, operator, contractor, power, mass, launchDate, image, otherDatails = null){
+        constructor(name, description, nation, application, operator, contractor, power, mass, launchDate,image, otherDatails = null, ){
             this.name = name;
             this.description = description;
             this.nation = nation;
@@ -198,6 +220,7 @@
         justify-content: center;
         align-items: flex-start;
         height: 100%;
+        max-width: 80vh;
     }
 
     .title-container {

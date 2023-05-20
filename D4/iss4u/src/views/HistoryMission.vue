@@ -51,9 +51,9 @@ export default{
     data(){
         return {
             missions:[
-                new Mission("Titolo1", "Descrizione1", "Data1", img1),
-                new Mission("Titolo2", "Descrizione2", "Data2", img1),
-                
+                /*new Mission("Titolo1", "Descrizione1", img1),
+                new Mission("Titolo2", "Descrizione2", img1),
+                */
             ]
         }
     },
@@ -64,15 +64,27 @@ export default{
         this.fetchMissions();
     },
     methods:{
-        fetchMissions(){
+        imageExists(url){
+            return new Promise(resolve => {
+                const img = new Image();
+                img.onload = () => resolve(true);
+                img.onerror = () => resolve(false);
+                img.src = url;
+            })
+        }
+        ,fetchMissions(){
             getMissions().then((response) => {
-                if(response.status === 200){
+                console.log("mission response"+response)
+                if(response.status == 200){
                     for(let i = 0; i < response.data.length; i++){
                         let img = response.data[i].image
-                        if(img === null){
-                            img = img1
-                        }
-                        this.missions.push(new Mission(response.data[i].title, response.data[i].description, response.data[i].date, img, response.data[i].link))
+                        this.imageExists(img).then(ok => {
+                            if(!ok){
+                                img = img1;
+                            }
+                            this.missions.push(new Mission(response.data[i].titolo, response.data[i].descrizione, img, response.data[i].date, response.data[i].link))
+
+                        });
                     }
                 }else{
                     alert("Errore nel caricamento delle missioni")
@@ -86,7 +98,7 @@ export default{
 var id = 0
 class Mission{
     
-    constructor(title, description, date, image, link = null){
+    constructor(title, description, image,date =null , link = null){
         this.title = title
         this.description = description
         this.image = image
