@@ -85,6 +85,9 @@ import {login} from '../api/users/login.js'
 
                             this.$router.push('/');
                                 
+                        }).catch(error=>{
+                            this.error_message = error.response.data.message;
+                            this.error = true;
                         });
                         //alert(localStorage.getItem(response.data.role));
                         

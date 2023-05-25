@@ -5,7 +5,7 @@ const BaseURL = 'localhost:8080';
 const init = axios.create({
     BaseURL,
     headers: {
-        Authorization:
+        authorization:
             localStorage.getItem('token')
 }});
 
