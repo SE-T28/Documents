@@ -46,8 +46,14 @@
                 </div>
                 <div class="row form-floating" v-if="isAmministratore">
                     <div class="col-md-9 form-floating input-group">
-                        <input type="text" class="form-control" id="userID" v-model="idUser">
-                        <label for="userID" class="myLabel"> &nbsp; &nbsp;ID utente</label>
+                        <!--<input type="text" class="form-control" id="userID" v-model="idUser">
+                        <label for="userID" class="myLabel"> &nbsp; &nbsp;ID utente</label>-->
+                        <select v-model="selected" class="form-control" style="color: #0EA2BD">
+                            <option disabled value="">Seleziona un utente</option>
+                            <option v-for="option in options" v-bind:value="option.id">
+                                {{ option.nome + " " + option.cognome + ": " + option.id }}
+                            </option>
+                        </select>
                     </div>
                 </div>
                 <!-- input field of start date, end date, name, module, description, isCompleted, userId-->
@@ -66,6 +72,8 @@
 
 <script>
     import { editTask } from '../api/tasks/editTask'
+    import {getCrew} from "../api/users/astronauts"
+
     export default{
         name: "FormAddTask",
         data(){
@@ -78,7 +86,9 @@
                 idUser: "",
                 error: "",
                 isError : false,
-                oldTaskName : ""
+                oldTaskName : "",
+                options: [],
+                selected : ""
 
             }
         },
@@ -88,8 +98,23 @@
             }else if(localStorage.getItem('role') === 'ROLE_AMMINISTRATORE'){
                 this.isAmministratore = true;
             }
+            this.selectIds();
+            this.isError = false;
+            this.error = "";
         },
         methods:{
+            selectIds(){
+                getCrew().then(({data}) => {
+                    for(let i = 0; i < data.length; i++){
+                        if(data[i].role != "ROLE_AMMINISTRATORE"){
+                            id = data[i].id;
+                            UserName = data[i].nome;
+                            UserSurname = data[i].cognome;
+                            this.options.push({id: id, nome: UserName, cognome: UserSurname});
+                        }
+                    }
+                })
+            },
             editTask(){
                 if(this.validateForm()){
                     const task = {
