@@ -5,7 +5,7 @@ const Role = db.role;
 require('dotenv').config;
 
 verificaToken = (req, res, next) => {
-  let token= req.headers["authorization"] && req.headers["authorization"].substring(7, req.headers["authorization"].lenght);
+  let token= req.headers["authorization"] || req.headers["authorization"].substring(7, req.headers["authorization"].lenght);
   if (!token) {
     return res.status(401).send({ message: "No token provided!" });
   }
