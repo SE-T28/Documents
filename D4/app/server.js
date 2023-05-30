@@ -99,5 +99,10 @@ require('./routes/utente')(app);
 //app.use('/', routesUtente);
 
 require('./routes/auth.routes')(app);
+
+function newFunction() {
+  app.listen(process.env.PORT || 8080, () => console.log('app listening on port ' + process.env.PORT + '!')
+  );
+}
 //const routesAuth= require('./routes/auth.routes');
 //app.use('/', routesAuth);
