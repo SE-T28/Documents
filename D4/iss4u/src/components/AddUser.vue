@@ -60,12 +60,26 @@
                         <label for="pw" class="myLabel"> &nbsp; &nbsp;Password</label>                   
                     </div>
                     <div class="col-md-4 ">
-                        <label for="select" class="myLabel"> Ruolo:&nbsp; &nbsp;  </label>
+                        <label for="select" class="myLabel" > Ruolo:&nbsp; &nbsp;  </label>
                         <select v-model="selected" style="margin: 10px; padding: 5px; border: 1px;">
-                            <option v-for="option in options" :value="option.value">
+                            <option v-for="option in options" :value="option.value" :id="option.value">
                                 {{ option.text }}
                             </option> 
                         </select>
+                    </div>
+                </div>
+                <div class="row form-floating">
+                    <div class="col-md-4 form-floating">
+                        <input type="text" class="form-control" id="bio" v-model="bio">
+                        <label for="bio" class="myLabel"> &nbsp; &nbsp;Bio</label>
+                    </div>
+                    <div class="col-md-4 form-floating">
+                        <input type="text" class="form-control" id="Surname" v-model="occupazione">
+                        <label for="occupazione" class="myLabel"> &nbsp; &nbsp;Occupazione</label>
+                    </div>
+                    <div class="col-md-4 form-floating">
+                        <input type="text" class="form-control" id="missioni" v-model="missioni">
+                        <label for="missioni" class="myLabel"> &nbsp; &nbsp;Missioni</label>
                     </div>
                 </div>
                 <!-- input field of start date, end date, name, module, description, isCompleted, userId-->
@@ -102,7 +116,10 @@
                 password: "",
                 date: "",
                 isError: false,
-                error: ""
+                error: "",
+                bio:"",
+                occupazione: "",
+                missioni:"",
             }
         },
         components:{
@@ -144,18 +161,21 @@
                     return false;
                 }
             },
-            async addUser(){
+            addUser(){
                 this.isError = false;
                 this.error = "";
                 if(this.validateForm()){
                     const user = {
-                        name: this.userName,
-                        surname: this.userSurname,
+                        nome: this.userName,
+                        cognome: this.userSurname,
                         email: this.mail,
                         password: this.password,
                         role: this.selected,
-                        bornDate: this.date,
-                        telefono: this.telefono
+                        data_nascita: this.date,
+                        numero_telefono: this.telefono,
+                        bio: this.bio,
+                        occupazione: this.occupazione,
+                        missioni: this.missioni
                     }
                     register(user).then(response => {
                         if(response.status != 201){
@@ -166,8 +186,6 @@
                             this.$router.push("/astronautsPage");
                         }
                     })
-                }else{
-                    
                 }
                 
             }
