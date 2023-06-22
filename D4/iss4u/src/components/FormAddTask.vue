@@ -44,7 +44,7 @@
                         <label for="userID" class="myLabel"> &nbsp; &nbsp;ID utente</label>-->
                         <select v-model="selected" class="form-control" style="color: #0EA2BD">
                             <option disabled value="">Seleziona un utente</option>
-                            <option v-for="option in options" v-bind:value="option.id">
+                            <option v-for="option in options" v-bind:value="option.id" :id="val">
                                 {{ option.nome + " " + option.cognome + ": " + option.id }}
                             </option>
                         </select>
@@ -82,7 +82,8 @@
                 error: "",
                 isError : false,
                 selected: "",
-                options: []
+                options: [],
+                val: 1
             }
         },
         created(){

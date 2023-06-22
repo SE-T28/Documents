@@ -34,7 +34,7 @@
                 <!-- input field of start date, end date, name, module, description, isCompleted, userId-->
                 <div class="row ">
                     <div class="col-md-12">
-                        <button class="btn btn-primary" type="submit" @click="deleteTask()">Elimina</button>
+                        <button class="btn btn-primary" type="submit" @click="deleteUsr()">Elimina</button>
                     </div>
                     
                 </div>
@@ -69,7 +69,7 @@
             this.isError = false;
         },
         methods:{
-            deleteTask(){
+            deleteUsr(){
                 if(this.checkForm()){
                     
                     const user = {
