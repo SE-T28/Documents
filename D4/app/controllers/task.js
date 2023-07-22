@@ -12,7 +12,7 @@ const addTask= (req, res) => {
                     res.status(500).send({ message: err });
                     return;
                 }
-                //cerco il role dell'utente
+                //cerco il role dell'utente che ha inviato la richiesta
                 Role.findOne({_id: {$in : user.role}}, (err, role) => {
                     if(err){
                         res.status(500).send({ message: err });

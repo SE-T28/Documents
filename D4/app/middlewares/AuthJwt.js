@@ -5,9 +5,15 @@ const Role = db.role;
 require('dotenv').config;
 
 verificaToken = (req, res, next) => {
-  let token= req.headers["authorization"] || req.headers["authorization"].substring(7, req.headers["authorization"].lenght);
+
+  let token=req.headers["authorization"];
+
   if (!token) {
     return res.status(401).send({ message: "No token provided!" });
+  }
+  
+  if(token.substring(0,7)=="Bearer "){
+    token= token.slice(7);
   }
 
   jwt.verify(token, process.env.SECRET , (err, decoded) => {
