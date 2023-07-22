@@ -2,7 +2,7 @@
     <div class="row justify-content-center">
         <div class="col-9 align-self-center prova">
             <h1>Aggiungi task</h1>
-            <form class="form-floating">
+            <form class="form-floating" @submit.prevent="addTask">
                 <div class="row" v-if="isError">
                     <div class="col-md-12 error">
                         {{ error }}
@@ -40,20 +40,22 @@
                 </div>
                 <div class="row form-floating" v-if="isAmministratore">
                     <div class="col-md-9 form-floating input-group">
-                        <!--<input type="text" class="form-control" id="userID" v-model="idUser">
-                        <label for="userID" class="myLabel"> &nbsp; &nbsp;ID utente</label>-->
-                        <select v-model="selected" class="form-control" style="color: #0EA2BD">
+
+                        
+                        <input type="text" class="form-control" id="userID" v-model="idUser">
+                        <label for="userID" class="myLabel"> &nbsp; &nbsp;ID utente</label>
+                        <!--<select v-model="selected" class="form-control" style="color: #0EA2BD">
                             <option disabled value="">Seleziona un utente</option>
                             <option v-for="option in options" v-bind:value="option.id" :id="val">
                                 {{ option.nome + " " + option.cognome + ": " + option.id }}
                             </option>
-                        </select>
+                        </select>-->
                     </div>
                 </div>
                 <!-- input field of start date, end date, name, module, description, isCompleted, userId-->
                 <div class="row ">
                     <div class="col-md-12">
-                        <button class="btn btn-primary" type="submit" @click="addTask()">Aggiungi</button>
+                        <button class="btn btn-primary" type="submit">Aggiungi</button>
                     </div>
                     
                 </div>
