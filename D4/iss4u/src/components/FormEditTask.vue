@@ -2,7 +2,7 @@
     <div class="row justify-content-center">
         <div class="col-9 align-self-center prova">
             <h1>Modifica task</h1>
-            <form class="form-floating">
+            <form class="form-floating" @submit.prevent="editTask">
                 <div class="row" v-if="isError">
                     <div class="col-md-12 error">
                         Errore {{ error }}
@@ -48,10 +48,10 @@
                     <div class="col-md-9 form-floating input-group">
                         <!--<input type="text" class="form-control" id="userID" v-model="idUser">
                         <label for="userID" class="myLabel"> &nbsp; &nbsp;ID utente</label>-->
-                        <select v-model="selected" class="form-control" style="color: #0EA2BD">
+                        <select v-model="idUser" class="form-control" style="color: #0EA2BD">
                             <option disabled value="">Seleziona un utente</option>
-                            <option v-for="option in options" v-bind:value="option.id">
-                                {{ option.nome + " " + option.cognome + ": " + option.id }}
+                            <option v-for="option in options" :value="option.id">
+                                {{ option.nome }} {{option.cognome}}: {{option.id}}
                             </option>
                         </select>
                     </div>
@@ -59,7 +59,7 @@
                 <!-- input field of start date, end date, name, module, description, isCompleted, userId-->
                 <div class="row ">
                     <div class="col-md-12">
-                        <button class="btn btn-primary" type="submit" @click="editTask()">Modifica</button>
+                        <button class="btn btn-primary" type="submit">Modifica</button>
                     </div>
                     
                 </div>
@@ -106,11 +106,18 @@
             selectIds(){
                 getCrew().then(({data}) => {
                     for(let i = 0; i < data.length; i++){
-                        if(data[i].role != "ROLE_AMMINISTRATORE"){
-                            id = data[i].id;
-                            UserName = data[i].nome;
-                            UserSurname = data[i].cognome;
-                            this.options.push({id: id, nome: UserName, cognome: UserSurname});
+                        if(data[i].role == "ROLE_AMMINISTRATORE"){
+                            if(this.isAmministratore){
+                                var myId = data[i]._id;
+                                var UserName = data[i].nome;
+                                var UserSurname = data[i].cognome;
+                                this.options.push({id: myId, nome: UserName, cognome: UserSurname});
+                            }
+                        }else{
+                            var myId = data[i]._id;
+                            var UserName = data[i].nome;
+                            var UserSurname = data[i].cognome;
+                            this.options.push({id: myId, nome: UserName, cognome: UserSurname});
                         }
                     }
                 })

@@ -79,7 +79,7 @@
                     deleteUser(user).then(response=>{
                         if(response.status === 200 || response.status === 202 || response.status === 204){
                             alert("Utente eliminato con successo");
-                            this.$router.push("/");
+                            this.$router.push("/astronautsPage");
 
                         }else{
                             this.isError = true;
