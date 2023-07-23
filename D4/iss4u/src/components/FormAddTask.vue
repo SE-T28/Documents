@@ -31,7 +31,7 @@
                 <div class="row form-floating">
                     <div class="col form-floating input-group mb-9">
                         <span class="input-group-text myLabel" style="background-color: white;" >Descrizione</span>
-                        <textarea type="date" class="form-control" id="description" aria-label="Descrizione" v-model="txtDescription"></textarea>
+                        <textarea type="date" class="form-control" id="description" aria-label="Descrizione" style="height: 100%" v-model="txtDescription"></textarea>
                     </div>
                     <div class="col-md-3 ">
                         <label for="checkbox" class="myLabel"> &nbsp; &nbsp;Completato? </label>
@@ -124,6 +124,23 @@
             },
             addTask(){
                 if(this.validateForm){
+                    console.log("Data:");
+                    console.log(this.data);
+                    var prova = false;
+                    var index;
+                    for (index = 0; index < this.options.length && !prova; index++) {
+                        const element = this.options[index];
+                        if(element.id == this.idUser){
+                            prova = true;
+                        }
+                    }
+                    index--;
+                    console.log("Options:");
+                    console.log(this.options);
+                    console.log("Options["+index+"]: "+this.options[index]);
+                    console.log(this.options[index].nome); // Funziona
+                    console.log(this.options[index].cognome); // Funziona
+
                     const task = {
                         data_inizio: this.startDate,
                         data_fine: this.endDate,
@@ -131,7 +148,9 @@
                         modulo: this.moduleName,
                         descrizione: this.txtDescription,
                         userId: this.idUser,
-                        completata: this.checked
+                        completata: this.checked,
+                        nomeuser: this.options[index].nome, 
+                        cognomeuser: this.options[index].cognome
                     };
                     
                     addTask(task).then(response =>{

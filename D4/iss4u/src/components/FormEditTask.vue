@@ -37,7 +37,7 @@
                 <div class="row form-floating">
                     <div class="col form-floating input-group mb-9">
                         <span class="input-group-text myLabel" style="background-color: white;" >Descrizione</span>
-                        <textarea type="date" class="form-control" id="description" aria-label="Descrizione" v-model="txtDescription"></textarea>
+                        <textarea type="date" class="form-control" id="description" aria-label="Descrizione" style="height: 100%" v-model="txtDescription"></textarea>
                     </div>
                     <div class="col-md-3 ">
                         <label for="checkbox" class="myLabel"> &nbsp; &nbsp;Completato? </label>

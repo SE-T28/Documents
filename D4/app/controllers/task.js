@@ -17,7 +17,7 @@ const addTask= (req, res) => {
                     if(err){
                         res.status(500).send({ message: err });
                         return;
-                    }  
+                    }
                     if(role.name === "tecnico_interno"){
                         const newTask= new Task({
                             data_inizio: req.body.data_inizio,
