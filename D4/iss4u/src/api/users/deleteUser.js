@@ -1,6 +1,10 @@
 import init from "../init";
 
-//   app.delete('/crew/:nome/:cognome', upload.none(), [authJwt.verificaToken, authJwt.isAmministratore], controller.deleteUsr);
-export const deleteUser = (nome, cognome) => {
-    return init.delete(`/crew/${nome}/${cognome}`);
+export const deleteUser = (data) =>{
+    /*nome = "/"+data.nome;
+    cognome = "/"+data.cognome;
+    text = "/crew"+nome+cognome;
+    console.log(text);
+    return init.delete(text);*/
+    return init.delete("/crew/"+data.nome+"/"+data.cognome);
 }

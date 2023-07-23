@@ -1,5 +1,5 @@
 import init from "../init";
 
 export const editTask = (task) => {
-    return init.patch(`/task/${task}`);
+    return init.patch("/task/"+task.nome);
 }

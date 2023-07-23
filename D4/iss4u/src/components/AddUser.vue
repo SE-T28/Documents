@@ -133,47 +133,38 @@
         },
         methods:{
             validateForm(){
-                console.log("Entrato nel form di validazione");
                 //alert(this.date) 23-05-2021
                 if(/^ *$/.test(this.userName)){
-                    console.log("err nome");
                     this.error = "Inserisci un nome";
                     this.isError = true;
                     return false;
                 }
                 if(/^ *$/.test(this.userSurname)){
-                    console.log("err cognome");
                     this.error = "Inserisci un cognome";
                     this.isError = true;
                     return false;
                 }
                 if(/^ *$/.test(this.mail)){
-                    console.log("err mail");
                     this.error = "Inserisci una mail";
                     this.isError = true;
                     return false;
                 }
                 if(/^ *$/.test(this.password)){
-                    console.log("err pw");
                     this.error = "Inserisci una password";
                     this.isError = true;
                     return false;
                 }
                 if(/^ *$/.test(this.date)){
-                    console.log("err data");
                     this.error = "Inserisci una data di nascita";
                     this.isError = true;
                     return false;
                 }
-                console.log("Fine");
                 return true;
             },
             addUser(){
-                console.log("Form di aggiunta utente");
                 this.isError = false;
                 this.error = "";
                 if(this.validateForm()){
-                    console.log("Form validato");
                     const user = {
                         nome: this.userName,
                         cognome: this.userSurname,
@@ -186,19 +177,15 @@
                         occupazione: this.occupazione,
                         missioni: this.missioni
                     }
-                    console.log("user creato");
                     register(user).then(response => {
-                        console.log("Almeno entra");
                         if(response.status != 201){
                             this.error = response.data.message;
                             this.isError = true;
                         }else{
-                            alert(response.data.message);
+                            alert("Utente aggiunto con successo");
                             this.$router.push("/astronautsPage");
                         }
                     })
-                }else{
-                    console.log("Form non validato");
                 }
                 
             }

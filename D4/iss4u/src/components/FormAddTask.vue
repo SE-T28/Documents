@@ -41,15 +41,15 @@
                 <div class="row form-floating" v-if="isAmministratore">
                     <div class="col-md-9 form-floating input-group">
 
-                        
+                        <!--
                         <input type="text" class="form-control" id="userID" v-model="idUser">
-                        <label for="userID" class="myLabel"> &nbsp; &nbsp;ID utente</label>
-                        <!--<select v-model="selected" class="form-control" style="color: #0EA2BD">
+                        <label for="userID" class="myLabel"> &nbsp; &nbsp;ID utente</label>-->
+                        <select v-model="idUser" class="form-control" style="color: #0EA2BD">
                             <option disabled value="">Seleziona un utente</option>
-                            <option v-for="option in options" v-bind:value="option.id" :id="val">
-                                {{ option.nome + " " + option.cognome + ": " + option.id }}
+                            <option v-for="option in options" :value="option.id">
+                                {{ option.nome }} {{option.cognome}}: {{ option.id }} 
                             </option>
-                        </select>-->
+                        </select>
                     </div>
                 </div>
                 <!-- input field of start date, end date, name, module, description, isCompleted, userId-->
@@ -100,13 +100,24 @@
         },
         methods:{
             selectIds(){
+                // Seleziona solo per gli amministratori
+                console.log("Entrato nella get degli IDs");
                 getCrew().then(({data}) => {
+                    console.log("La richiesta è arrivata:");
+                    console.log(data);
                     for(let i = 0; i < data.length; i++){
-                        if(data[i].role != "ROLE_AMMINISTRATORE"){
-                            id = data[i]._id;
-                            UserName = data[i].nome;
-                            UserSurname = data[i].cognome;
-                            this.options.push({id: id, nome: UserName, cognome: UserSurname});
+                        if(data[i].role == "ROLE_AMMINISTRATORE" ){
+                            if(this.isAmministratore){
+                                var myId = data[i]._id;
+                                var UserName = data[i].nome;
+                                var UserSurname = data[i].cognome;
+                                this.options.push({id: myId, nome: UserName, cognome: UserSurname});
+                            }
+                        }else{
+                            var myId = data[i]._id;
+                            var UserName = data[i].nome;
+                            var UserSurname = data[i].cognome;
+                            this.options.push({id: myId, nome: UserName, cognome: UserSurname});
                         }
                     }
                 })
@@ -114,13 +125,15 @@
             addTask(){
                 if(this.validateForm){
                     const task = {
-                        startDate: this.startDate,
-                        endDate: this.endDate,
-                        taskName: this.taskName,
-                        moduleName: this.moduleName,
-                        txtDescription: this.txtDescription,
-                        idUser: this.idUser
+                        data_inizio: this.startDate,
+                        data_fine: this.endDate,
+                        nome: this.taskName,
+                        modulo: this.moduleName,
+                        descrizione: this.txtDescription,
+                        userId: this.idUser,
+                        completata: this.checked
                     };
+                    
                     addTask(task).then(response =>{
                         if(response.status == 201){
                             alert("Task aggiunta con successo");
