@@ -40,7 +40,7 @@ const addTask= (req, res) => {
                                 res.status(500).send({ message: err });
                                 return;
                             }
-                            if(!user){
+                            if(!utente){
                                 return res.status(404).json({message: "Utente non trovato"})
                             }
                             const newTask= new Task({
