@@ -31,7 +31,7 @@
                 <div class="row form-floating">
                     <div class="col form-floating input-group mb-9">
                         <span class="input-group-text myLabel" style="background-color: white;" >Descrizione</span>
-                        <textarea type="date" class="form-control" id="description" aria-label="Descrizione" style="height: 100%" v-model="txtDescription"></textarea>
+                        <textarea type="date" class="form-control" id="description" aria-label="Descrizione" style="min-height: 100%" v-model="txtDescription"></textarea>
                     </div>
                     <div class="col-md-3 ">
                         <label for="checkbox" class="myLabel"> &nbsp; &nbsp;Completato? </label>
@@ -101,7 +101,7 @@
         methods:{
             selectIds(){
                 // Seleziona solo per gli amministratori
-                console.log("Entrato nella get degli IDs");
+                //console.log("Entrato nella get degli IDs");
                 getCrew().then(({data}) => {
                     console.log("La richiesta è arrivata:");
                     console.log(data);
@@ -140,7 +140,7 @@
                     console.log("Options["+index+"]: "+this.options[index]);
                     console.log(this.options[index].nome); // Funziona
                     console.log(this.options[index].cognome); // Funziona
-
+                    
                     const task = {
                         data_inizio: this.startDate,
                         data_fine: this.endDate,
@@ -152,6 +152,15 @@
                         nomeuser: this.options[index].nome, 
                         cognomeuser: this.options[index].cognome
                     };
+                    /*const task = {
+                        "data_inizio": "2022-04-05T00:00:00.000+00:00",
+                        "data_fine":"2022-04-06T00:00:00.000+00:00",
+                        "modoulo": "Modulo 1",
+                        "nome": "Task 3",
+                        "completata": false,
+                        "nomeuser": "matteo",
+                        "cognomeuser": "parma"
+                    };*/
                     
                     addTask(task).then(response =>{
                         if(response.status == 201){
@@ -165,12 +174,12 @@
             }},
             validateForm(){
                 // validate form
-                if(this.startDate === "" ){
+                if(this.startDate == "" ){
                     this.error = "Inserisci una data di inizio";
                     this.isError = true;
                     return false;
                 }
-                if(this.endDate === "" ){
+                if(this.endDate == "" ){
                     this.error = "Inserisci una data di fine";
                     this.isError = true;
                     return false;
@@ -190,7 +199,7 @@
                     this.isError = true;
                     return false;
                 }
-                if(this.isAmministratore && this.idUser === ""){
+                if(this.isAmministratore && this.idUser == ""){
                     this.error = "Inserisci un id utente";
                     this.isError = true;
                     return false;
