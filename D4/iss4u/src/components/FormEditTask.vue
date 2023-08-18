@@ -5,31 +5,43 @@
             <form class="form-floating" @submit.prevent="editTask">
                 <div class="row" v-if="isError">
                     <div class="col-md-12 error">
-                        Errore {{ error }}
+                        {{ error }}
                     </div>
                 </div>
+                
+                <div class="row form-floating">
+                    <select class="col-md-9 form-floating input-group" id="taskSelector" v-model="prova">
+                        <option disabled value="" selected>Seleziona una task</option>
+                        <option v-for="option in options" :value="option.id">
+                            {{ option.nome }}
+                        </option>
+                    </select>
+                </div>
+                <div v-if="prova != ''">
+
+                
                 <div class="row form-floating">
                     <div class="col-md-12 form-floating">
-                        <input type="text" class="form-control" id="oldName" v-model="oldTaskName">
+                        <input type="text" class="form-control" id="oldName" v-model="taskName">
                         <label for="oldName" class="myLabel"> &nbsp; &nbsp;Nome task da modificare</label>
                     </div>
                 </div>
                 <div class="row form-floating">
                     <div class="col-md-6 form-floating">
-                        <input type="date" class="form-control" id="startDate">
+                        <input type="date" class="form-control" v-model="startDate">
                         <label for="startDate" class="myLabel"> &nbsp; &nbsp;Data di inizio</label>
                     </div>
                     <div class="col-md-6 form-floating">
-                        <input type="date" class="form-control" id="endDate">
+                        <input type="date" class="form-control" v-model="endDate">
                         <label for="endDate" class="myLabel"> &nbsp; &nbsp;Data di fine</label>
                     </div>
                 </div>
                 <div class="row form-floating">
-                    <div class="col-md-6 form-floating">
+                    <!--<div class="col-md-6 form-floating">
                         <input type="text" class="form-control" id="Name" v-model="taskName">
                         <label for="Name" class="myLabel"> &nbsp; &nbsp;Nuovo nome</label>
-                    </div>
-                    <div class="col-md-6 form-floating">
+                    </div>-->
+                <div class="col-md-12 form-floating">
                         <input type="text" class="form-control" id="modulo" v-model="moduleName">
                         <label for="modulo" class="myLabel"> &nbsp; &nbsp;Modulo</label>
                     </div>
@@ -48,7 +60,8 @@
                     <div class="col-md-9 form-floating input-group">
                         <!--<input type="text" class="form-control" id="userID" v-model="idUser">
                         <label for="userID" class="myLabel"> &nbsp; &nbsp;ID utente</label>-->
-                        <select v-model="idUser" class="form-control" style="color: #0EA2BD">
+                        
+                            <select v-model="idUser" class="form-control" style="color: #0EA2BD">
                             <option disabled value="">Seleziona un utente</option>
                             <option v-for="option in options" :value="option.id">
                                 {{ option.nome }} {{option.cognome}}: {{option.id}}
@@ -56,13 +69,15 @@
                         </select>
                     </div>
                 </div>
-                <!-- input field of start date, end date, name, module, description, isCompleted, userId-->
+                
                 <div class="row ">
                     <div class="col-md-12">
                         <button class="btn btn-primary" type="submit">Modifica</button>
                     </div>
                     
                 </div>
+                </div>
+                
             </form>
 
         </div>
@@ -85,11 +100,17 @@
                 checked: false,
                 idUser: "",
                 error: "",
+                prova: "",
                 isError : false,
-                oldTaskName : "",
-                options: [],
-                selected : ""
-
+                //oldTaskName: "",
+                options: [
+                    { id: 1, nome: "Mario", cognome: "Rossi" },
+                    { id: 2, nome: "Luigi", cognome: "Verdi" },
+                    { id: 3, nome: "Giovanni", cognome: "Bianchi" }
+                ],
+                selected : "",
+                startDate: "",
+                endDate: ""
             }
         },
         created(){
@@ -123,17 +144,19 @@
                 })
             },
             editTask(){
-                if(this.validateForm()){
+                if(this.validateForm()){                    
                     const task = {
                         nome: this.taskName,
                         descrizione: this.txtDescription,
-                        dataInizio: this.startDate,
-                        dataFine: this.endDate,
+                        data_inizio: this.startDate,
+                        data_fine: this.endDate,
                         modulo: this.moduleName,
-                        completato: this.checked,
-                        idUtente: this.idUser
+                        completata: this.checked,
+                        userId: this.idUser
                     };
-                    editTask(this.oldTaskName, task).then((response) => {
+                    console.log("task");
+                    console.log(task);
+                    editTask(task).then((response) => {
                         if(response.status === 200){
                             alert("Task modificata con successo")
                             this.$router.push("/tasks");
@@ -142,7 +165,8 @@
                             this.isError = true;
                         }
                     }).catch((error) => {
-                        this.error = "Errore nella modifica della task";
+                        //this.error = "Errore nella modifica della task";
+                        this.error = error.response.status + ": " + error.response.statusText;
                         this.isError = true;
                     })
                 }

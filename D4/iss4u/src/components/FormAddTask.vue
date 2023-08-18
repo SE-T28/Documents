@@ -10,11 +10,11 @@
                 </div>
                 <div class="row form-floating">
                     <div class="col-md-6 form-floating">
-                        <input type="date" class="form-control" id="startDate">
+                        <input type="date" class="form-control" v-model="startDate">
                         <label for="startDate" class="myLabel"> &nbsp; &nbsp;Data di inizio</label>
                     </div>
                     <div class="col-md-6 form-floating">
-                        <input type="date" class="form-control" id="endDate">
+                        <input type="date" class="form-control" v-model="endDate">
                         <label for="endDate" class="myLabel"> &nbsp; &nbsp;Data di fine</label>
                     </div>
                 </div>
@@ -123,6 +123,9 @@
                 })
             },
             addTask(){
+                console.log(this.startDate);
+                console.log(this.endDate);
+
                 if(this.validateForm){
                     console.log("Data:");
                     console.log(this.data);
