@@ -165,6 +165,16 @@
                         "cognomeuser": "parma"
                     };*/
                     
+                    /*addTask(task).then(response =>{
+                        if(response.status == 201){
+                            alert("Task aggiunta con successo");
+                            this.$router.push("/tasks");
+                        }else{
+                            this.isError = true;
+                            this.error = response.status+": "+response.data.message;
+                        }
+                    });*/
+                    // add task and catch error
                     addTask(task).then(response =>{
                         if(response.status == 201){
                             alert("Task aggiunta con successo");
@@ -173,6 +183,9 @@
                             this.isError = true;
                             this.error = response.status+": "+response.data.message;
                         }
+                    }).catch(error => {
+                        this.isError = true;
+                        this.error = error.response.status+": "+error.response.data.message;
                     });
             }},
             validateForm(){
