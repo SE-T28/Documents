@@ -200,17 +200,17 @@
                     this.isError = true;
                     return false;
                 }
-                if(/^ *$/.test(this.taskName)){
+                if(this.taskName == ""){
                     this.error = "Inserisci un nome per la task";
                     this.isError = true;
                     return false;
                 }
-                if(/^ *$/.test(this.moduleName)){
+                if(this.moduleName == ""){
                     this.error = "Inserisci un nome per il modulo";
                     this.isError = true;
                     return false;
                 }
-                if(/^ *$/.test(this.txtDescription)){
+                if(this.txtDescription == ""){
                     this.error = "Inserisci una descrizione";
                     this.isError = true;
                     return false;
