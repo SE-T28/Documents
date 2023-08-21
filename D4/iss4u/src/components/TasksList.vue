@@ -6,7 +6,7 @@
                     
                     <div class="col-md-4">
                         <div class="input-group">
-                            <input class="form-control py-2 " style="border-right: 0px !important;" type="search" id="example-search-input" v-model="searchQuery" placeholder="Cerca task... (nome o titolo)">
+                            <input class="form-control py-2 " style="border-right: 0px !important;" type="search" id="example-search-input" v-model="searchQuery" placeholder="Cerca task... (nome)">
                             
                             <div class="input-group-text " style="border-left: 0px !important;" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="28" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
@@ -91,7 +91,10 @@
             tasks(){
                 if(this.searchQuery){
                     return this.tasks.filter(item => {
-                        return this.searchQuery.toLowerCase().split(" ").every(v => item.nome.toLowerCase().includes(v) || item.id != null ? item.id.toLowerCase().includes(v) : false);
+                        return this.searchQuery.toLowerCase().split(" ").every(v => 
+                            item.nome.toLowerCase().includes(v) || item.id != null || item.userId.toLowerCase().includes(v) || item.modulo.toLowerCase().includes(v) || item.nome != null || item.modulo != null  
+                            ? item.nome.toLowerCase().includes(v) 
+                            : false);
                     });
                 }else{
                     return this.tasks;

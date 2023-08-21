@@ -21,7 +21,7 @@
             <div class="row" style="margin-top: 50px;">
                 <div class="col-md-6 col-lg-6" v-for="container in containers" :key="container.nome" @mouseover="showDescription(container)" @mouseleave="hideDescription(container)" @click="selectContainer(container)" :class="{ 'selected': selectedContainer === container }">
                     <div class="card mb-4">
-                        <img class="card-img-top" :src="container.image" alt="Card image cap">
+                        <img class="card-img-top" :src="container.image" alt="Card image cap" style="max-height: 200px; object-fit: cover;">
                         <div class="card-body">
                             <h5 class="card-title">{{ container.name }}</h5>
                             <div class="card-description" :class="{active: container.showDescription}">
@@ -42,7 +42,7 @@
 
     <div class="row">
         <div class="col-12 col-md-5 image-container" style=" padding-left: 0px !important;">
-        <img :src="selectedContainer.image" alt="Selected Container Image">
+        <img :src="selectedContainer.image" alt="Selected Container Image" style="max-width: 390px;">
         </div>
         <div class="col-12 col-md-7 text-container">
             <div class="title-container">
@@ -110,13 +110,14 @@
                     for(let i = 0; i < data.length; i++){
                         // Src the image on the web and if it doesn't exist, use a placeholder
                         var image = data[i].image;
-                        this.imageExists(image).then(ok => {
+                        /*this.imageExists(image).then(ok => {
                             if(!ok){
                                 image = "https://via.placeholder.com/325x167";
                             }
                             this.containers.push(new Container(data[i].nome, data[i].descrizione, data[i].nazione, data[i].application, data[i].operator, data[i].contractors, data[i].power, data[i].mass, data[i].launch_date, image, data[i].other_details));
 
-                        });
+                        });*/
+                        this.containers.push(new Container(data[i].nome, data[i].descrizione, data[i].nazione, data[i].application, data[i].operator, data[i].contractors, data[i].power, data[i].mass, data[i].launch_date, data[i].image, data[i].other_details));
                     }
                 }).catch((error) => {
                     /*this.immagine = "https://okokok.jpg";
