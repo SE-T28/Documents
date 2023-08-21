@@ -4,7 +4,6 @@ const Role= require('../models/role');
 const { role } = require('../models');
 
 const addTask= (req, res) => {
-    //alert("addTask entrato");
     Task.findOne({nome: req.body.nome}, (err, data) =>{
         //se non è già presente nel db
         if(!data){

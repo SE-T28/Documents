@@ -10,29 +10,29 @@
                 </div>
                 
                 <div class="row form-floating">
-                    <select class="col-md-9 form-floating input-group" id="taskSelector" v-model="prova">
+                    <select class="col-md-9 form-floating input-group" id="taskSelector" @change="switchSelect($event)" v-model="selectedTask" aria-placeholder="Seleziona una task">
                         <option disabled value="" selected>Seleziona una task</option>
-                        <option v-for="option in options" :value="option.id">
-                            {{ option.nome }}
+                        <option v-for="task in tasks" :value="task">
+                            {{ task.nome }}
                         </option>
                     </select>
                 </div>
-                <div v-if="prova != ''">
+                <div v-if="originalTask.nome != '' ">
 
                 
                 <div class="row form-floating">
                     <div class="col-md-12 form-floating">
-                        <input type="text" class="form-control" id="oldName" v-model="taskName">
+                        <input type="text" class="form-control" id="oldName" v-model="originalTask.nome">
                         <label for="oldName" class="myLabel"> &nbsp; &nbsp;Nome task da modificare</label>
                     </div>
                 </div>
                 <div class="row form-floating">
                     <div class="col-md-6 form-floating">
-                        <input type="date" class="form-control" v-model="startDate">
+                        <input type="date" class="form-control" v-model="originalTask.data_inizio">
                         <label for="startDate" class="myLabel"> &nbsp; &nbsp;Data di inizio</label>
                     </div>
                     <div class="col-md-6 form-floating">
-                        <input type="date" class="form-control" v-model="endDate">
+                        <input type="date" class="form-control" v-model="originalTask.data_fine">
                         <label for="endDate" class="myLabel"> &nbsp; &nbsp;Data di fine</label>
                     </div>
                 </div>
@@ -42,31 +42,18 @@
                         <label for="Name" class="myLabel"> &nbsp; &nbsp;Nuovo nome</label>
                     </div>-->
                 <div class="col-md-12 form-floating">
-                        <input type="text" class="form-control" id="modulo" v-model="moduleName">
+                        <input type="text" class="form-control" id="modulo" v-model="originalTask.modulo">
                         <label for="modulo" class="myLabel"> &nbsp; &nbsp;Modulo</label>
                     </div>
                 </div>
                 <div class="row form-floating">
                     <div class="col form-floating input-group mb-9">
                         <span class="input-group-text myLabel" style="background-color: white;" >Descrizione</span>
-                        <textarea type="date" class="form-control" id="description" aria-label="Descrizione" style="min-height: 100%" v-model="txtDescription"></textarea>
+                        <textarea type="date" class="form-control" id="description" aria-label="Descrizione" style="min-height: 100%" v-model="originalTask.descrizione"></textarea>
                     </div>
                     <div class="col-md-3 ">
                         <label for="checkbox" class="myLabel"> &nbsp; &nbsp;Completato? </label>
                         <input type="checkbox" id="checkbox" v-model="checked" style="margin: 20px;" />
-                    </div>
-                </div>
-                <div class="row form-floating" v-if="isAmministratore">
-                    <div class="col-md-9 form-floating input-group">
-                        <!--<input type="text" class="form-control" id="userID" v-model="idUser">
-                        <label for="userID" class="myLabel"> &nbsp; &nbsp;ID utente</label>-->
-                        
-                            <select v-model="idUser" class="form-control" style="color: #0EA2BD">
-                            <option disabled value="">Seleziona un utente</option>
-                            <option v-for="option in options" :value="option.id">
-                                {{ option.nome }} {{option.cognome}}: {{option.id}}
-                            </option>
-                        </select>
                     </div>
                 </div>
                 
@@ -86,6 +73,8 @@
 </template>
 
 <script>
+    const moment= require('moment');
+    import { getTasks } from '../api/tasks/getTask' 
     import { editTask } from '../api/tasks/editTask'
     import {getCrew} from "../api/users/astronauts"
 
@@ -103,11 +92,10 @@
                 prova: "",
                 isError : false,
                 //oldTaskName: "",
-                options: [
-                    { id: 1, nome: "Mario", cognome: "Rossi" },
-                    { id: 2, nome: "Luigi", cognome: "Verdi" },
-                    { id: 3, nome: "Giovanni", cognome: "Bianchi" }
-                ],
+                options:[],
+                tasks:[],
+                originalTask: {nome: ""},
+                selectedTask: {nome: ""},
                 selected : "",
                 startDate: "",
                 endDate: ""
@@ -119,11 +107,41 @@
             }else if(localStorage.getItem('role') === 'ROLE_AMMINISTRATORE'){
                 this.isAmministratore = true;
             }
+            this.selectTasks();
             this.selectIds();
             this.isError = false;
             this.error = "";
         },
         methods:{
+            switchSelect:function(event){
+                this.originalTask.nomeoriginale=this.selectedTask["nome"],
+                this.originalTask.nome=this.selectedTask["nome"],
+                this.originalTask.data_inizio=this.selectedTask["data_inizio"],
+                this.originalTask.data_fine=this.selectedTask["data_fine"],
+                this.originalTask.modulo=this.selectedTask["modulo"],
+                this.originalTask.descrizione=this.selectedTask["descrizione"],
+                this.originalTask.completata=this.selectedTask["completata"]
+            },
+            
+            selectTasks(){
+                getTasks().then(({data}) =>{
+                    for(let i=0; i<data.length; i++){
+                        var taskid=data[i]._id;
+                        var tasknome=data[i].nome;
+                        var taskdatainizio=data[i].data_inizio;
+                        var datainiziofomatted= moment(taskdatainizio).format("YYYY-MM-DD");
+                        var taskdatafine= data[i].data_fine;
+                        var datafineformatted= moment(taskdatafine).format("YYYY-MM-DD");
+                        var taskmodulo= data[i].modulo;
+                        var taskcompletata= data[i].completata;
+                        var taskdescrizione= data[i].descrizione;
+                        this.tasks.push({id: taskid, nome: tasknome, data_inizio: datainiziofomatted,
+                                        data_fine: datafineformatted, modulo: taskmodulo, completata: taskcompletata,
+                                        descrizione: taskdescrizione});
+                    }
+                })
+            },
+
             selectIds(){
                 getCrew().then(({data}) => {
                     for(let i = 0; i < data.length; i++){
@@ -144,18 +162,18 @@
                 })
             },
             editTask(){
-                if(this.validateForm()){                    
+                if(this.validateForm()){                   
+
                     const task = {
-                        nome: this.taskName,
-                        descrizione: this.txtDescription,
-                        data_inizio: this.startDate,
-                        data_fine: this.endDate,
-                        modulo: this.moduleName,
-                        completata: this.checked,
-                        userId: this.idUser
+                        nomeoriginale: this.originalTask.nomeoriginale,
+                        nome: this.originalTask.nome,
+                        descrizione: this.originalTask.descrizione,
+                        data_inizio: this.originalTask.data_inizio,
+                        data_fine: this.originalTask.data_fine,
+                        modulo: this.originalTask.modulo,
+                        completata: this.originalTask.completata,
                     };
-                    console.log("task");
-                    console.log(task);
+
                     editTask(task).then((response) => {
                         if(response.status === 200){
                             alert("Task modificata con successo")
@@ -173,33 +191,23 @@
             },
             validateForm(){
                 // validate form
-                if(this.startDate === "" ){
+                if(this.originalTask.data_inizio === "" ){
                     this.error = "Inserisci una data di inizio";
                     this.isError = true;
                     return false;
                 }
-                if(this.endDate === "" ){
+                if(this.originalTask.data_fine === "" ){
                     this.error = "Inserisci una data di fine";
                     this.isError = true;
                     return false;
                 }
-                if(/^ *$/.test(this.taskName)){
+                if(/^ *$/.test(this.originalTask.nome)){
                     this.error = "Inserisci un nome per la task";
                     this.isError = true;
                     return false;
                 }
-                if(/^ *$/.test(this.moduleName)){
+                if(/^ *$/.test(this.originalTask.modulo)){
                     this.error = "Inserisci un nome per il modulo";
-                    this.isError = true;
-                    return false;
-                }
-                if(/^ *$/.test(this.txtDescription)){
-                    this.error = "Inserisci una descrizione";
-                    this.isError = true;
-                    return false;
-                }
-                if(this.isAmministratore && /^ *$/.test(this.idUser)){
-                    this.error = "Inserisci un id utente";
                     this.isError = true;
                     return false;
                 }
