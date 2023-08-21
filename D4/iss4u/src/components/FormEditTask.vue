@@ -53,7 +53,7 @@
                     </div>
                     <div class="col-md-3 ">
                         <label for="checkbox" class="myLabel"> &nbsp; &nbsp;Completato? </label>
-                        <input type="checkbox" id="checkbox" v-model="checked" style="margin: 20px;" />
+                        <input type="checkbox" id="checkbox" v-model="originalTask.completata" true-value="true" false-value="false" style="margin: 20px;" />
                     </div>
                 </div>
                 
