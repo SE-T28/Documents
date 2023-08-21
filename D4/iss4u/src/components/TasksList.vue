@@ -58,13 +58,7 @@
         data(){
             return{
                 searchQuery: null,
-                tasks:[
-                    /*new Task("11/09/2002", "18/09/2002", "Torri_gemelle" , "altra torre", "attacco magico", "s23vbr3"),
-                    new Task("11/09/2002", "18/09/2002", "Torri_gemelle" , "terza torre", "attacco magico", "a66xbx3"),
-                    new Task("11/09/2002", "18/09/2002", "Torri_gemelle" , "terza torre", "attacco magico", "a66xbx3"),
-                    new Task("11/09/2002", "18/09/2002", "Torri_gemelle" , "terza torre", "attacco magico", "a66xbx3"),
-                    new Task("11/09/2002", "18/09/2002", "Torri_gemelle" , "quarta torre", "attacco magico")*/
-                ],
+                tasks:[],
                 value : 0
             }
         },
