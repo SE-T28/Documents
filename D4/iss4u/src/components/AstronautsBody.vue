@@ -73,7 +73,7 @@
                     for(let i = 0; i < data.length; i++){
                         if(data[i].role != "ROLE_AMMINISTRATORE" || data[i].role != "AMMINISTRATORE"){
                         let image = data[i].image;
-                        this.imageExists(image).then(ok => {
+                        /*this.imageExists(image).then(ok => {
                             if(!ok){
                                 image = "https://via.placeholder.com/167x200";
                             }
@@ -88,7 +88,17 @@
                                 image,
                                 data[i].bio
                             ));
-                        });
+                        });*/
+                        this.astronauts.push(new Astronaut(
+                                data[i].nome, 
+                                data[i].cognome, 
+                                data[i].data_nascita, 
+                                data[i].email, 
+                                data[i].occupazione, 
+                                data[i].missioni,
+                                data[i].image,
+                                data[i].bio
+                            ));
                         }
                     }
                     
