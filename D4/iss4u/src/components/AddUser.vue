@@ -36,7 +36,7 @@
                         <span class="input-group-text myLabel" id="inputGroupPrepend">@
                             <br>E-mail<br>
                         </span>
-                        <input type="email" class="form-control" v-model="mail" id="validationCustomUsername" aria-describedby="inputGroupPrepend"  required>
+                        <input type="email" class="form-control" v-model="mail" id="validationCustomUsername" aria-describedby="inputGroupPrepend" >
                         <div class="invalid-feedback">
                             scrivi una mail valida.
                         </div>
@@ -144,18 +144,8 @@
                     this.isError = true;
                     return false;
                 }
-                if(/^ *$/.test(this.mail)){
-                    this.error = "Inserisci una mail";
-                    this.isError = true;
-                    return false;
-                }
                 if(/^ *$/.test(this.password)){
                     this.error = "Inserisci una password";
-                    this.isError = true;
-                    return false;
-                }
-                if(/^ *$/.test(this.date)){
-                    this.error = "Inserisci una data di nascita";
                     this.isError = true;
                     return false;
                 }

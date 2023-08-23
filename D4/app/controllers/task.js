@@ -171,7 +171,7 @@ const deleteTask= (req, res) => {
                 });
             }else if(role.name=='tecnico_interno'){
                 //se tecnico interno elimino la task se esiste e appartiene all'utente
-                Task.findOneAndDelete({nome:req.params.nome, userId: req.user}, (err, data) => {
+                Task.findOneAndDelete({nome:req.params.nome, userId: req.userId}, (err, data) => {
                     if(err){
                         return res.status(500).send({message: err});
                     }
