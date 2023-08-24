@@ -94,6 +94,9 @@ app.use('/', routesNews);
 const routesAgenzia= require('./routes/agenzia');
 app.use('/', routesAgenzia);
 
+const routesMissioni= require('./routes/missione');
+app.use('/', routesMissioni);
+
 require('./routes/utente')(app);
 //const routesUtente= require('./routes/utente');
 //app.use('/', routesUtente);
