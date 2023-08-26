@@ -10,7 +10,7 @@
                 </div>
                 
                 <div class="row form-floating">
-                    Seleziona task:
+                    <strong style="color: #0EA2BD;">Seleziona task:</strong>
                     <select class="col-md-9 form-floating input-group form-control" id="taskSelector" @change="switchSelect($event)" v-model="selectedTask" aria-placeholder="Seleziona una task">
                         <option disabled value="" selected>Seleziona una task</option>
                         <option v-for="task in tasks" :value="task">

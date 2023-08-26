@@ -77,14 +77,14 @@ export default{
                 console.log("mission response"+response)
                 if(response.status == 200){
                     for(let i = 0; i < response.data.length; i++){
-                        let img = response.data[i].image
+                        /*let img = response.data[i].image
                         this.imageExists(img).then(ok => {
                             if(!ok){
                                 img = img1;
-                            }
-                            this.missions.push(new Mission(response.data[i].titolo, response.data[i].descrizione, img, response.data[i].date, response.data[i].link))
+                            }*/
+                            this.missions.push(new Mission(response.data[i].titolo, response.data[i].descrizione, /*img*/response.data[i].immagine, response.data[i].date, response.data[i].link))
 
-                        });
+                        //});
                     }
                 }else{
                     alert("Errore nel caricamento delle missioni")

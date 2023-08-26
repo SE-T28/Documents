@@ -96,7 +96,7 @@
                                 data[i].email, 
                                 data[i].occupazione, 
                                 data[i].missioni,
-                                data[i].image,
+                                data[i].immagine,
                                 data[i].bio
                             ));
                         }
